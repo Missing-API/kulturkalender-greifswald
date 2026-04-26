@@ -6,24 +6,29 @@ This spec defines mandatory caching behavior.
 
 ## Cache Layers (Mandatory)
 
-1. Source feed cache.
-2. Venue index cache.
-3. Venue detail cache.
-4. Derived normalized event cache.
+1. Source feed cache (runtime, in-memory or HTTP-level).
+2. Venue data (build-time static JSON + runtime lazy fallback with module-level cache).
+3. Derived normalized event cache (runtime, in-memory).
+
+## Venue Data: Build-Time Static + Runtime Lazy Fallback
+
+Venue enrichment uses a two-layer approach:
+
+- **Layer 1:** Build-time warm-up writes `src/data/venues.generated.json` (bundled, instant).
+- **Layer 2:** Runtime lazy fetch for venues missing from the static map (module-level in-memory cache, persists for function lifetime).
+
+No external cache (KV/Redis) required. No scheduled redeploys required. The system is self-healing: runtime lazy fetch covers new venues and build-time failures automatically.
+
+See [data-source.md](../data-source.md) for the full venue enrichment spec.
 
 ## Cache Key Rules (Mandatory)
 
 - Feed: `feed:kulturkalender:global`
-- Venue index: `venue:index`
-- Venue detail by id: `venue:id:{id}`
-- Venue detail by normalized name: `venue:name:{normalizedName}`
 - Normalized events: `events:normalized:{hashOfQuery}`
 
 ## TTL Rules (Mandatory)
 
 - Feed cache TTL: 1h
-- Venue index TTL: 24h
-- Venue detail TTL: 24h
 - Normalized events TTL: 15m
 
 Serve stale data during revalidation when supported by cache layer.
