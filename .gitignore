@@ -1,0 +1,23 @@
+# Reports
+reports/
+
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.production.local
+
+# Vercel
+.vercel
+
+# OS
+.DS_Store
+
+# TypeScript
+*.tsbuildinfo

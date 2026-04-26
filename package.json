@@ -1,0 +1,45 @@
+{
+  "name": "kulturkalender-greifswald",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@10.8.1",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm typecheck && pnpm lint && pnpm build && pnpm test",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e:live": "vitest run --config vitest.live.config.ts"
+  },
+  "dependencies": {
+    "@ts-rest/core": "^3.52.1",
+    "@ts-rest/open-api": "^3.52.1",
+    "ics": "^3.12.0",
+    "next": "^16.2.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "swagger-ui-react": "^5.32.4",
+    "zod": "3"
+  },
+  "devDependencies": {
+    "@schafevormfenster/eslint-config": "^0.0.24",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@types/swagger-ui-react": "^5.18.0",
+    "@vitest/coverage-v8": "^4.1.5",
+    "@vitest/ui": "^4.1.5",
+    "eslint": "^9.39.4",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.5"
+  }
+}
