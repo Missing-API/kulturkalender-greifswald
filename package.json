@@ -9,6 +9,7 @@
   "packageManager": "pnpm@10.8.1",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "tsx scripts/warm-venues.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -20,9 +21,13 @@
     "test:e2e:live": "vitest run --config vitest.live.config.ts"
   },
   "dependencies": {
+    "@schafevormfenster/data-text-mapper": "^0.2.2",
+    "@schafevormfenster/rest-commons": "^0.1.10",
+    "@schafevormfenster/ts-rest-zod-handler": "^0.1.8",
     "@ts-rest/core": "^3.52.1",
     "@ts-rest/open-api": "^3.52.1",
-    "ics": "^3.12.0",
+    "cheerio": "^1.2.0",
+    "ics": "github:schafevormfenster/ics",
     "next": "^16.2.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
@@ -39,6 +44,7 @@
     "@vitest/ui": "^4.1.5",
     "eslint": "^9.39.4",
     "eslint-import-resolver-typescript": "^4.4.4",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.1.5"
   }

@@ -1,0 +1,19 @@
+[
+  {
+    "kumo_link": "https://www.kulturkalender.greifswald.de/events/12345?start_on=2026-06-15",
+    "kumo_id": 12345,
+    "kumo_updated_at": "2026-06-01T14:30:00.000+02:00",
+    "category": "Musik",
+    "venue": "Stadthalle Greifswald",
+    "title": "Sommerkonzert im Park",
+    "subtitle": "Ein Abend voller Klassik und Jazz",
+    "content": "Genießen Sie einen wundervollen Sommerabend mit Live-Musik.\r\n\r\nEintritt: 15 EUR\r\nVVK: 12 EUR",
+    "image": "https://www.kulturkalender.greifswald.de/rails/active_storage/representations/redirect/example.jpg",
+    "image_link": "https://www.kulturkalender.greifswald.de/rails/active_storage/representations/redirect/example.jpg",
+    "image_credits": "Stadthalle Greifswald / Pressefoto",
+    "time": "19:30",
+    "date": "2026-06-15",
+    "time_venue": "19:30 / Stadthalle Greifswald",
+    "organiser": "Kulturverein Greifswald e.V."
+  }
+]

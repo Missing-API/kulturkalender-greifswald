@@ -1,0 +1,397 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ICS Formatter > Happy Path > generates ICS from fixture events matching snapshot 1`] = `
+"BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+PRODID:kulturkalender-greifswald
+METHOD:PUBLISH
+X-WR-TIMEZONE:Europe/Berlin
+X-PUBLISHED-TTL:PT1H
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+X-LIC-LOCATION:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+X-WR-CALNAME:Kulturkalender Greifswald
+X-PUBLISHED-TTL:PT1H
+BEGIN:VEVENT
+UID:kulturkalender-58362-2026-04-26
+SUMMARY:Mit Blick auf´s Wasser
+DTSTAMP:REDACTED
+DTSTART;TZID=Europe/Berlin:20260425T220000
+DESCRIPTION:Fotoausstellung von Thomas Mauroschat\\n\\nVon April bis Juni wir
+	d es eine Fotoausstellung im Gemeinderaum geben. Thomas Mauroschat zeigt s
+	eine schönsten Fotos vom Ryck und Wieck. Mit seinen außergewöhnlichen Luft
+	perspektiven hat er in den sozialen Medien bereits viele Anhänger gewonnen
+	. \\nAm 28.3. um 15 Uhr laden wir herzlich zur Vernissage der neuen Ausstel
+	lung ein. Dort können Sie mit dem Künstler ins Gespräch kommen.\\nEinen Ein
+	blick in seine Arbeit finden Sie auf www.tm-photography.org\\n\\nÖffnungszei
+	ten:\\nsonntags von 11-12 Uhr \\nfreitags von 9.00 - 12.00 Uhr\\n\\nhttps://ww
+	w.kulturkalender.greifswald.de/rails/active_storage/representations/redire
+	ct/eyJfcmFpbHMiOnsiZGF0YSI6MzU3MCwicHVyIjoiYmxvYl9pZCJ9fQ==--4073f593d007d
+	9afa0e5be7056ef1f52984432d5/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLC
+	JyZXNpemVfdG9fbGltaXQiOlsxNTAwLG51bGxdfSwicHVyIjoidmFyaWF0aW9uIn19--c56dfb
+	44d623097a44fb367f821d9950f7615867/GreifswaldAgainINSTA2.jpg\\n\\nhttps://ww
+	w.kulturkalender.greifswald.de/events/58362?start_on=2026-04-26\\n\\n#Ausste
+	llung
+URL:https://www.kulturkalender.greifswald.de/events/58362?start_on=2026-04-
+	26
+LOCATION:Kirche Wieck
+STATUS:CONFIRMED
+CATEGORIES:Ausstellung
+ORGANIZER;CN=Kulturkalender Greifswald
+X-ALT-DESC;FMTTYPE=text/html:<p class="p-description">Fotoausstellung von T
+	homas Mauroschat
+
+Von April bis Juni wird es eine Fotoausstellung im Gemei
+	nderaum geben. Thomas Mauroschat zeigt seine schönsten Fotos vom Ryck und 
+	Wieck. Mit seinen außergewöhnlichen Luftperspektiven hat er in den soziale
+	n Medien bereits viele Anhänger gewonnen. 
+Am 28.3. um 15 Uhr laden wir he
+	rzlich zur Vernissage der neuen Ausstellung ein. Dort können Sie mit dem K
+	ünstler ins Gespräch kommen.
+Einen Einblick in seine Arbeit finden Sie auf
+	 www.tm-photography.org
+
+Öffnungszeiten:
+sonntags von 11-12 Uhr 
+freitags 
+	von 9.00 - 12.00 Uhr</p>
+<img class="u-photo" src="https://www.kulturkalen
+	der.greifswald.de/rails/active_storage/representations/redirect/eyJfcmFpbH
+	MiOnsiZGF0YSI6MzU3MCwicHVyIjoiYmxvYl9pZCJ9fQ==--4073f593d007d9afa0e5be7056
+	ef1f52984432d5/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9
+	fbGltaXQiOlsxNTAwLG51bGxdfSwicHVyIjoidmFyaWF0aW9uIn19--c56dfb44d623097a44f
+	b367f821d9950f7615867/GreifswaldAgainINSTA2.jpg" />
+<p class="link"><a cla
+	ss="u-url" href="https://www.kulturkalender.greifswald.de/events/58362?sta
+	rt_on=2026-04-26">https://www.kulturkalender.greifswald.de/events/58362?st
+	art_on=2026-04-26</a></p>
+<p class="taxonomy"><span class="p-category">#Au
+	sstellung</span></p>
+DESCRIPTION;ALTREP="CID:<kulturkalender-58362-2026-04-26>":<p class="p-desc
+	ription">Fotoausstellung von Thomas Mauroschat
+
+Von April bis Juni wird es
+	 eine Fotoausstellung im Gemeinderaum geben. Thomas Mauroschat zeigt seine
+	 schönsten Fotos vom Ryck und Wieck. Mit seinen außergewöhnlichen Luftpers
+	pektiven hat er in den sozialen Medien bereits viele Anhänger gewonnen. 
+A
+	m 28.3. um 15 Uhr laden wir herzlich zur Vernissage der neuen Ausstellung 
+	ein. Dort können Sie mit dem Künstler ins Gespräch kommen.
+Einen Einblick 
+	in seine Arbeit finden Sie auf www.tm-photography.org
+
+Öffnungszeiten:
+son
+	ntags von 11-12 Uhr 
+freitags von 9.00 - 12.00 Uhr</p>
+<img class="u-photo
+	" src="https://www.kulturkalender.greifswald.de/rails/active_storage/repre
+	sentations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzU3MCwicHVyIjoiYmxvYl9pZCJ9fQ
+	==--4073f593d007d9afa0e5be7056ef1f52984432d5/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb
+	3JtYXQiOiJqcGciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAwLG51bGxdfSwicHVyIjoidmFyaWF
+	0aW9uIn19--c56dfb44d623097a44fb367f821d9950f7615867/GreifswaldAgainINSTA2.
+	jpg" />
+<p class="link"><a class="u-url" href="https://www.kulturkalender.
+	greifswald.de/events/58362?start_on=2026-04-26">https://www.kulturkalender
+	.greifswald.de/events/58362?start_on=2026-04-26</a></p>
+<p class="taxonomy
+	"><span class="p-category">#Ausstellung</span></p>
+DURATION:PT2H
+END:VEVENT
+BEGIN:VEVENT
+UID:kulturkalender-58240-2026-04-26
+SUMMARY:Galerie der Romantik
+DTSTAMP:REDACTED
+DTSTART;TZID=Europe/Berlin:20260425T220000
+DESCRIPTION:Caspar David Friedrich sehen\\n\\n1774 erblickte Caspar David Fri
+	edrich in Greifswald das Licht der Welt. Heute ist er der weltweit bekannt
+	este Maler des 19. Jahrhunderts und steht im Mittelpunkt der Galerie der R
+	omantik. Besucher*innen empfängt eine Kapelle\\, die mit einem multimediale
+	n Kunstwerk auf Friedrichs poetische Bildwelt einstimmt. Man erlebt mit\\, 
+	wie seine Bilder Form annahmen\\, kann sich in die Originale vertiefen und 
+	erfahren\\, was für ein Mensch der Seifensiedersohn aus Schwedisch-Pommern 
+	war. Oder wussten Sie schon\\, dass Caspar David Friedrich Kanarienvögel zü
+	chtete und für seinen gewaltigen Vollbart berühmt und berüchtigt war?\\n\\nD
+	er Bau wird gefördert durch den Beauftragten der Bundesregierung für Kultu
+	r und Medien aufgrund eines Beschlusses des Deutschen Bundestages.\\nInterr
+	eg. Kofinanziert von der Europäischen Union. \\nIm Rahmen des Interreg-Proj
+	ekts „Gemeinsame Wege zur Kunst in Pommern“ wird das Projekt durch die Eur
+	opäische Union mit Mitteln des Fonds für Regionale Entwicklung (EFRE) kofi
+	nanziert.\\n\\nhttps://www.kulturkalender.greifswald.de/rails/active_storage
+	/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzQ3NywicHVyIjoiYmxvYl9p
+	ZCJ9fQ==--98f8b63dba61fd7f0904f574818155d2dab40ae5/eyJfcmFpbHMiOnsiZGF0YSI
+	6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAwLG51bGxdfSwicHVyIjoid
+	mFyaWF0aW9uIn19--c56dfb44d623097a44fb367f821d9950f7615867/Pl_A3_Galerie%20
+	der%20Romantik.jpg\\n\\nhttps://www.kulturkalender.greifswald.de/events/5824
+	0?start_on=2026-04-26\\n\\n#Ausstellung
+URL:https://www.kulturkalender.greifswald.de/events/58240?start_on=2026-04-
+	26
+LOCATION:Pommersches Landesmuseum
+STATUS:CONFIRMED
+CATEGORIES:Ausstellung
+ORGANIZER;CN=Kulturkalender Greifswald
+X-ALT-DESC;FMTTYPE=text/html:<p class="p-description">Caspar David Friedric
+	h sehen
+
+1774 erblickte Caspar David Friedrich in Greifswald das Licht der
+	 Welt. Heute ist er der weltweit bekannteste Maler des 19. Jahrhunderts un
+	d steht im Mittelpunkt der Galerie der Romantik. Besucher*innen empfängt e
+	ine Kapelle, die mit einem multimedialen Kunstwerk auf Friedrichs poetisch
+	e Bildwelt einstimmt. Man erlebt mit, wie seine Bilder Form annahmen, kann
+	 sich in die Originale vertiefen und erfahren, was für ein Mensch der Seif
+	ensiedersohn aus Schwedisch-Pommern war. Oder wussten Sie schon, dass Casp
+	ar David Friedrich Kanarienvögel züchtete und für seinen gewaltigen Vollba
+	rt berühmt und berüchtigt war?
+
+Der Bau wird gefördert durch den Beauftrag
+	ten der Bundesregierung für Kultur und Medien aufgrund eines Beschlusses d
+	es Deutschen Bundestages.
+Interreg. Kofinanziert von der Europäischen Unio
+	n. 
+Im Rahmen des Interreg-Projekts „Gemeinsame Wege zur Kunst in Pommern“
+	 wird das Projekt durch die Europäische Union mit Mitteln des Fonds für Re
+	gionale Entwicklung (EFRE) kofinanziert.</p>
+<img class="u-photo" src="htt
+	ps://www.kulturkalender.greifswald.de/rails/active_storage/representations
+	/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzQ3NywicHVyIjoiYmxvYl9pZCJ9fQ==--98f8b6
+	3dba61fd7f0904f574818155d2dab40ae5/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJ
+	qcGciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAwLG51bGxdfSwicHVyIjoidmFyaWF0aW9uIn19-
+	-c56dfb44d623097a44fb367f821d9950f7615867/Pl_A3_Galerie%20der%20Romantik.j
+	pg" />
+<p class="link"><a class="u-url" href="https://www.kulturkalender.g
+	reifswald.de/events/58240?start_on=2026-04-26">https://www.kulturkalender.
+	greifswald.de/events/58240?start_on=2026-04-26</a></p>
+<p class="taxonomy"
+	><span class="p-category">#Ausstellung</span></p>
+DESCRIPTION;ALTREP="CID:<kulturkalender-58240-2026-04-26>":<p class="p-desc
+	ription">Caspar David Friedrich sehen
+
+1774 erblickte Caspar David Friedri
+	ch in Greifswald das Licht der Welt. Heute ist er der weltweit bekannteste
+	 Maler des 19. Jahrhunderts und steht im Mittelpunkt der Galerie der Roman
+	tik. Besucher*innen empfängt eine Kapelle, die mit einem multimedialen Kun
+	stwerk auf Friedrichs poetische Bildwelt einstimmt. Man erlebt mit, wie se
+	ine Bilder Form annahmen, kann sich in die Originale vertiefen und erfahre
+	n, was für ein Mensch der Seifensiedersohn aus Schwedisch-Pommern war. Ode
+	r wussten Sie schon, dass Caspar David Friedrich Kanarienvögel züchtete un
+	d für seinen gewaltigen Vollbart berühmt und berüchtigt war?
+
+Der Bau wird
+	 gefördert durch den Beauftragten der Bundesregierung für Kultur und Medie
+	n aufgrund eines Beschlusses des Deutschen Bundestages.
+Interreg. Kofinanz
+	iert von der Europäischen Union. 
+Im Rahmen des Interreg-Projekts „Gemeins
+	ame Wege zur Kunst in Pommern“ wird das Projekt durch die Europäische Unio
+	n mit Mitteln des Fonds für Regionale Entwicklung (EFRE) kofinanziert.</p>
+	
+<img class="u-photo" src="https://www.kulturkalender.greifswald.de/rails/
+	active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzQ3NywicH
+	VyIjoiYmxvYl9pZCJ9fQ==--98f8b63dba61fd7f0904f574818155d2dab40ae5/eyJfcmFpb
+	HMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAwLG51bGx
+	dfSwicHVyIjoidmFyaWF0aW9uIn19--c56dfb44d623097a44fb367f821d9950f7615867/Pl
+	_A3_Galerie%20der%20Romantik.jpg" />
+<p class="link"><a class="u-url" href
+	="https://www.kulturkalender.greifswald.de/events/58240?start_on=2026-04-2
+	6">https://www.kulturkalender.greifswald.de/events/58240?start_on=2026-04-
+	26</a></p>
+<p class="taxonomy"><span class="p-category">#Ausstellung</span
+	></p>
+DURATION:PT2H
+END:VEVENT
+BEGIN:VEVENT
+UID:kulturkalender-54014-2026-04-26
+SUMMARY:Tägliche öffentliche Führung durch Aula und Karzer
+DTSTAMP:REDACTED
+DTSTART;TZID=Europe/Berlin:20260426T130000
+DESCRIPTION:Die Kustodie der Uni Greifswald bietet jährlich - neben ganzjäh
+	rigen Gruppenführungen - vom 01.04. bis zum 31.10. täglich von Montag bis 
+	Sonntag um 15 Uhr eine öffentliche Führung durch Aula und Karzer an.\\n\\nSc
+	hauen Sie großen Denkern in die Augen und begnadeten Ärzten der Universitä
+	t Greifswald auf die Finger. Lernen Sie die Geschichte der Alma Mater Pomm
+	erns und der ältesten schwedischen Universität kennen. Erfahren Sie mehr ü
+	ber die Hochschule in den politischen Umbrüchen der letzten 200 Jahre. Wir
+	 zeigen Ihnen unsere ‚gute Stube‘\\, die barocke Aula\\, und lassen Sie Gefä
+	ngnisluft schnuppern. Staunen Sie über die derben Späße der studentischen 
+	Sträflinge vergangener Zeiten.\\n\\nAnmeldung: ohne\\nTreffpunkt: Am Rubenow-
+	Denkmal (Am Rubenowplatz\\, 17489 Greifswald)\\nBeginn: 15:00 Uhr\\nDauer: 45
+	 Minuten\\nPreis: 5 € (Kinder zahlen ab Schuleintritt)\\nBezahlung: passend 
+	in bar vor Ort\\nSprache: Deutsch\\n\\nBitte beachten Sie:\\nIn Ausnahmefällen
+	 (zum Beispiel bei universitären Veranstaltungen) kann die Aula nicht besi
+	chtigt werden. Alternativ wird der Konzilsaal im Hauptgebäude\\, das Hörsaa
+	lgebäude oder der noch heute genutzte historische Hörsaal mit Originalbest
+	uhlung besichtigt. Ihr Tourguide informiert Sie vor Beginn der Führung.\\n\\
+	nBuchen Sie eine Gruppenführung!\\nNeben öffentlichen Führungen bietet die 
+	Kustodie acht thematische Gruppenführung an. Diese können ganzjährig von M
+	ontag bis Sonntag zwischen 8 und 22 Uhr stattfinden. https://www.uni-greif
+	swald.de/universitaet/einrichtungen/kustodie/universitaetsfuehrungen/grupp
+	en-fuehrungen-mit-anmeldung/\\n\\n-----------------------------------------\\
+	nAnsprechpartnerin:\\nCaroline Weihrauch\\nUniversität Greifswald\\nKustodie\\
+	nDomstraße 11\\, Eingang 4\\n17489 Greifswald\\n\\nTel.: +49 38344203060\\nMail
+	: unifuehrungen@uni-greifswald.de\\nWeb: www.uni-Greifswald.de/fuehrungen\\n
+	\\nhttps://www.kulturkalender.greifswald.de/rails/active_storage/representa
+	tions/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MjIxMiwicHVyIjoiYmxvYl9pZCJ9fQ==--0
+	9cfc647bb6ba1d071cddae9fee7c48c714368f2/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYX
+	QiOiJqcGciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAwLG51bGxdfSwicHVyIjoidmFyaWF0aW9u
+	In19--c56dfb44d623097a44fb367f821d9950f7615867/Kustodiefuhrungen_Foto-Pres
+	sestelle_klein.jpg\\n\\nhttps://www.kulturkalender.greifswald.de/events/5401
+	4?start_on=2026-04-26\\n\\n#Extra
+URL:https://www.kulturkalender.greifswald.de/events/54014?start_on=2026-04-
+	26
+LOCATION:Universität
+STATUS:CONFIRMED
+CATEGORIES:Extra
+ORGANIZER;CN=Kustodie der Universität Greifswald
+X-ALT-DESC;FMTTYPE=text/html:<p class="p-description">Die Kustodie der Uni 
+	Greifswald bietet jährlich - neben ganzjährigen Gruppenführungen - vom 01.
+	04. bis zum 31.10. täglich von Montag bis Sonntag um 15 Uhr eine öffentlic
+	he Führung durch Aula und Karzer an.
+
+Schauen Sie großen Denkern in die Au
+	gen und begnadeten Ärzten der Universität Greifswald auf die Finger. Lerne
+	n Sie die Geschichte der Alma Mater Pommerns und der ältesten schwedischen
+	 Universität kennen. Erfahren Sie mehr über die Hochschule in den politisc
+	hen Umbrüchen der letzten 200 Jahre. Wir zeigen Ihnen unsere ‚gute Stube‘,
+	 die barocke Aula, und lassen Sie Gefängnisluft schnuppern. Staunen Sie üb
+	er die derben Späße der studentischen Sträflinge vergangener Zeiten.
+
+Anme
+	ldung: ohne
+Treffpunkt: Am Rubenow-Denkmal (Am Rubenowplatz, 17489 Greifsw
+	ald)
+Beginn: 15:00 Uhr
+Dauer: 45 Minuten
+Preis: 5 € (Kinder zahlen ab Schu
+	leintritt)
+Bezahlung: passend in bar vor Ort
+Sprache: Deutsch
+
+Bitte beach
+	ten Sie:
+In Ausnahmefällen (zum Beispiel bei universitären Veranstaltungen
+	) kann die Aula nicht besichtigt werden. Alternativ wird der Konzilsaal im
+	 Hauptgebäude, das Hörsaalgebäude oder der noch heute genutzte historische
+	 Hörsaal mit Originalbestuhlung besichtigt. Ihr Tourguide informiert Sie v
+	or Beginn der Führung.
+
+Buchen Sie eine Gruppenführung!
+Neben öffentlichen
+	 Führungen bietet die Kustodie acht thematische Gruppenführung an. Diese k
+	önnen ganzjährig von Montag bis Sonntag zwischen 8 und 22 Uhr stattfinden.
+	 https://www.uni-greifswald.de/universitaet/einrichtungen/kustodie/univers
+	itaetsfuehrungen/gruppen-fuehrungen-mit-anmeldung/
+
+----------------------
+	-------------------
+Ansprechpartnerin:
+Caroline Weihrauch
+Universität Grei
+	fswald
+Kustodie
+Domstraße 11, Eingang 4
+17489 Greifswald
+
+Tel.: +49 383442
+	03060
+Mail: unifuehrungen@uni-greifswald.de
+Web: www.uni-Greifswald.de/fue
+	hrungen</p>
+<img class="u-photo" src="https://www.kulturkalender.greifswal
+	d.de/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsiZGF0YSI
+	6MjIxMiwicHVyIjoiYmxvYl9pZCJ9fQ==--09cfc647bb6ba1d071cddae9fee7c48c714368f
+	2/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fbGltaXQiOlsx
+	NTAwLG51bGxdfSwicHVyIjoidmFyaWF0aW9uIn19--c56dfb44d623097a44fb367f821d9950
+	f7615867/Kustodiefuhrungen_Foto-Pressestelle_klein.jpg" />
+<p class="link"
+	><a class="u-url" href="https://www.kulturkalender.greifswald.de/events/54
+	014?start_on=2026-04-26">https://www.kulturkalender.greifswald.de/events/5
+	4014?start_on=2026-04-26</a></p>
+<p class="taxonomy"><span class="p-catego
+	ry">#Extra</span></p>
+DESCRIPTION;ALTREP="CID:<kulturkalender-54014-2026-04-26>":<p class="p-desc
+	ription">Die Kustodie der Uni Greifswald bietet jährlich - neben ganzjähri
+	gen Gruppenführungen - vom 01.04. bis zum 31.10. täglich von Montag bis So
+	nntag um 15 Uhr eine öffentliche Führung durch Aula und Karzer an.
+
+Schaue
+	n Sie großen Denkern in die Augen und begnadeten Ärzten der Universität Gr
+	eifswald auf die Finger. Lernen Sie die Geschichte der Alma Mater Pommerns
+	 und der ältesten schwedischen Universität kennen. Erfahren Sie mehr über 
+	die Hochschule in den politischen Umbrüchen der letzten 200 Jahre. Wir zei
+	gen Ihnen unsere ‚gute Stube‘, die barocke Aula, und lassen Sie Gefängnisl
+	uft schnuppern. Staunen Sie über die derben Späße der studentischen Sträfl
+	inge vergangener Zeiten.
+
+Anmeldung: ohne
+Treffpunkt: Am Rubenow-Denkmal (
+	Am Rubenowplatz, 17489 Greifswald)
+Beginn: 15:00 Uhr
+Dauer: 45 Minuten
+Pre
+	is: 5 € (Kinder zahlen ab Schuleintritt)
+Bezahlung: passend in bar vor Ort
+	
+Sprache: Deutsch
+
+Bitte beachten Sie:
+In Ausnahmefällen (zum Beispiel bei
+	 universitären Veranstaltungen) kann die Aula nicht besichtigt werden. Alt
+	ernativ wird der Konzilsaal im Hauptgebäude, das Hörsaalgebäude oder der n
+	och heute genutzte historische Hörsaal mit Originalbestuhlung besichtigt. 
+	Ihr Tourguide informiert Sie vor Beginn der Führung.
+
+Buchen Sie eine Grup
+	penführung!
+Neben öffentlichen Führungen bietet die Kustodie acht thematis
+	che Gruppenführung an. Diese können ganzjährig von Montag bis Sonntag zwis
+	chen 8 und 22 Uhr stattfinden. https://www.uni-greifswald.de/universitaet/
+	einrichtungen/kustodie/universitaetsfuehrungen/gruppen-fuehrungen-mit-anme
+	ldung/
+
+-----------------------------------------
+Ansprechpartnerin:
+Carol
+	ine Weihrauch
+Universität Greifswald
+Kustodie
+Domstraße 11, Eingang 4
+1748
+	9 Greifswald
+
+Tel.: +49 38344203060
+Mail: unifuehrungen@uni-greifswald.de
+
+	Web: www.uni-Greifswald.de/fuehrungen</p>
+<img class="u-photo" src="https:
+	//www.kulturkalender.greifswald.de/rails/active_storage/representations/re
+	direct/eyJfcmFpbHMiOnsiZGF0YSI6MjIxMiwicHVyIjoiYmxvYl9pZCJ9fQ==--09cfc647b
+	b6ba1d071cddae9fee7c48c714368f2/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcG
+	ciLCJyZXNpemVfdG9fbGltaXQiOlsxNTAwLG51bGxdfSwicHVyIjoidmFyaWF0aW9uIn19--c5
+	6dfb44d623097a44fb367f821d9950f7615867/Kustodiefuhrungen_Foto-Pressestelle
+	_klein.jpg" />
+<p class="link"><a class="u-url" href="https://www.kulturka
+	lender.greifswald.de/events/54014?start_on=2026-04-26">https://www.kulturk
+	alender.greifswald.de/events/54014?start_on=2026-04-26</a></p>
+<p class="t
+	axonomy"><span class="p-category">#Extra</span></p>
+DURATION:PT2H
+END:VEVENT
+END:VCALENDAR
+"
+`;

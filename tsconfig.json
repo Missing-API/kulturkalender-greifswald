@@ -25,6 +25,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "ics": [
+        "./node_modules/ics/index.d.ts"
       ]
     }
   },

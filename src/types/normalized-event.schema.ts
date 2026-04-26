@@ -28,6 +28,10 @@ export const NormalizedEventSchema = z
       .string()
       .default("kulturkalender-greifswald")
       .describe("Source adapter identifier"),
+    tags: z
+      .array(z.string())
+      .default([])
+      .describe("Metadata tags for downstream processing (e.g. vhs-overlap)"),
     updated: z.string().describe("Last update timestamp from source"),
   })
   .strict()

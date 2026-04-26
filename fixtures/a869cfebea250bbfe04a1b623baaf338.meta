@@ -1,0 +1,4 @@
+LIVE-CHECK: 2026-04-26
+SOURCE-URL: https://www.kulturkalender.greifswald.de/export/a869cfebea250bbfe04a1b623baaf338.json
+CHECKED-BY: agent
+NOTES: schema-compatible, no new fields detected against KulturkalenderSourceEventSchema

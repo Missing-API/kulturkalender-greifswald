@@ -8,6 +8,9 @@ node_modules/
 .next/
 out/
 
+# Generated data (rebuilt on each deploy)
+src/data/venues.generated.json
+
 # Environment
 .env
 .env.local
@@ -21,3 +24,4 @@ out/
 
 # TypeScript
 *.tsbuildinfo
+.env*.local

@@ -1,0 +1,19 @@
+[
+  {
+    "kumo_link": "https://www.kulturkalender.greifswald.de/events/99999?start_on=2026-01-01",
+    "kumo_id": 99999,
+    "kumo_updated_at": "2026-01-01T00:00:00.000+01:00",
+    "category": "Extra",
+    "venue": null,
+    "title": "Minimal Event",
+    "subtitle": null,
+    "content": null,
+    "image": null,
+    "image_link": null,
+    "image_credits": null,
+    "time": "",
+    "date": "2026-01-01",
+    "time_venue": null,
+    "organiser": null
+  }
+]

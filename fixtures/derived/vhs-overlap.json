@@ -1,0 +1,36 @@
+[
+  {
+    "kumo_link": "https://www.kulturkalender.greifswald.de/events/44444?start_on=2026-05-01",
+    "kumo_id": 44444,
+    "kumo_updated_at": "2026-04-01T10:00:00.000+02:00",
+    "category": "Vortrag",
+    "venue": "Volkshochschule Greifswald",
+    "title": "Englisch für Anfänger",
+    "subtitle": "Kurs A1.1",
+    "content": "Anfängerkurs Englisch",
+    "image": "https://example.com/vhs.jpg",
+    "image_link": "https://example.com/vhs.jpg",
+    "image_credits": "VHS",
+    "time": "18:00",
+    "date": "2026-05-01",
+    "time_venue": "18:00 / Volkshochschule Greifswald",
+    "organiser": "Volkshochschule Vorpommern-Greifswald"
+  },
+  {
+    "kumo_link": "https://www.kulturkalender.greifswald.de/events/44445?start_on=2026-05-02",
+    "kumo_id": 44445,
+    "kumo_updated_at": "2026-04-01T10:00:00.000+02:00",
+    "category": "Vortrag",
+    "venue": "Rathaus",
+    "title": "VHS Vortrag im Rathaus",
+    "subtitle": null,
+    "content": "Veranstaltung der Volkshochschule",
+    "image": "https://example.com/vhs2.jpg",
+    "image_link": "https://example.com/vhs2.jpg",
+    "image_credits": "VHS",
+    "time": "19:00",
+    "date": "2026-05-02",
+    "time_venue": "19:00 / Rathaus",
+    "organiser": "Volkshochschule Vorpommern-Greifswald"
+  }
+]

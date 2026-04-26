@@ -20,6 +20,7 @@ export const EventDtoSchema = z
       .enum(["confirmed", "tentative", "cancelled"])
       .describe("Event status"),
     source: z.string().describe("Source adapter identifier"),
+    tags: z.array(z.string()).describe("Metadata tags"),
     updated: z.string().describe("Last update timestamp"),
   })
   .strict();

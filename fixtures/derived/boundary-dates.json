@@ -1,0 +1,53 @@
+[
+  {
+    "kumo_link": "https://www.kulturkalender.greifswald.de/events/11111?start_on=2026-03-29",
+    "kumo_id": 11111,
+    "kumo_updated_at": "2026-03-01T10:00:00.000+01:00",
+    "category": "Vortrag",
+    "venue": "Universität",
+    "title": "DST Transition Event",
+    "subtitle": null,
+    "content": "Event on CET→CEST transition day",
+    "image": "https://example.com/img.jpg",
+    "image_link": "https://example.com/img.jpg",
+    "image_credits": "Test",
+    "time": "02:00",
+    "date": "2026-03-29",
+    "time_venue": "02:00 / Universität",
+    "organiser": null
+  },
+  {
+    "kumo_link": "https://www.kulturkalender.greifswald.de/events/22222?start_on=2026-12-31",
+    "kumo_id": 22222,
+    "kumo_updated_at": "2026-12-01T10:00:00.000+01:00",
+    "category": "Fest",
+    "venue": "Marktplatz",
+    "title": "Silvester am Markt",
+    "subtitle": "Willkommen 2027",
+    "content": "Silvesterfeier auf dem Marktplatz",
+    "image": "https://example.com/silvester.jpg",
+    "image_link": "https://example.com/silvester.jpg",
+    "image_credits": "Stadt Greifswald",
+    "time": "23:00",
+    "date": "2026-12-31",
+    "time_venue": "23:00 / Marktplatz",
+    "organiser": "Stadt Greifswald"
+  },
+  {
+    "kumo_link": "https://www.kulturkalender.greifswald.de/events/33333?start_on=2026-01-01",
+    "kumo_id": 33333,
+    "kumo_updated_at": "2025-12-20T08:00:00.000+01:00",
+    "category": "Musik",
+    "venue": "Dom St. Nikolai",
+    "title": "Neujahrskonzert",
+    "subtitle": null,
+    "content": "Festliches Neujahrskonzert",
+    "image": "https://example.com/neujahr.jpg",
+    "image_link": "https://example.com/neujahr.jpg",
+    "image_credits": "Dom",
+    "time": "00:00",
+    "date": "2026-01-01",
+    "time_venue": "00:00 / Dom St. Nikolai",
+    "organiser": null
+  }
+]
