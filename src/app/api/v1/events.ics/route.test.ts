@@ -84,5 +84,17 @@ describe("GET /api/v1/events.ics (route handler)", () => {
     const json = await response.json();
     expect(json.error).toMatch(/upstream failed/i);
   });
+
+  it("returns generic message when non-Error is thrown", async () => {
+    const { getEvents } = await import(
+      "@/services/application/get-events.service"
+    );
+    vi.mocked(getEvents).mockRejectedValueOnce("string-error");
+
+    const response = await GET();
+    expect(response.status).toBe(500);
+    const json = await response.json();
+    expect(json.error).toMatch(/internal server error/i);
+  });
   });
 });

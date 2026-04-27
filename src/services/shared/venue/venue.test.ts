@@ -40,6 +40,26 @@ describe("parseVenueIndex", () => {
     );
     expect(result.size).toBe(0);
   });
+
+  it("skips links without venue name text", () => {
+    const html = `<html><body>
+      <a href="/venues/99"></a>
+      <a href="/venues/100">Valid</a>
+    </body></html>`;
+    const result = parseVenueIndex(html, "https://example.com/venues/");
+    expect(result.size).toBe(1);
+    expect(result.has("valid")).toBe(true);
+  });
+
+  it("skips links without numeric venue ID", () => {
+    const html = `<html><body>
+      <a href="/venues/about">About</a>
+      <a href="/venues/200">Real Venue</a>
+    </body></html>`;
+    const result = parseVenueIndex(html, "https://example.com/venues/");
+    expect(result.size).toBe(1);
+    expect(result.has("real venue")).toBe(true);
+  });
 });
 
 describe("normalizeVenueName", () => {

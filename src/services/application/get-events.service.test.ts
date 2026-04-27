@@ -216,5 +216,25 @@ describe("getEvents – normalized event cache", () => {
 
     await expect(getEvents()).rejects.toThrow("Network error");
   });
+
+  it("handles non-Error throw from upstream", async () => {
+    vi.mocked(cacheModule.cacheGet).mockReturnValue(null);
+    mockFetchFeed.mockRejectedValue("string-error");
+
+    await expect(getEvents()).rejects.toBe("string-error");
+  });
+
+  it("serves stale data on non-Error upstream failure", async () => {
+    const normalized = makeNormalizedEvent();
+
+    vi.mocked(cacheModule.cacheGet).mockReturnValue({
+      data: { events: [normalized], maxUpdatedAt: "2026-01-15T10:00:00.000+01:00" },
+      stale: true,
+    });
+    mockFetchFeed.mockRejectedValue("string-error");
+
+    const events = await getEvents();
+    expect(events).toEqual([normalized]);
+  });
   });
 });

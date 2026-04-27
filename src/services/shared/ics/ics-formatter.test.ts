@@ -7,7 +7,7 @@ import { mapSourceToNormalized } from "@/services/adapters/kulturkalender/kultur
 import { KulturkalenderSourceFeedSchema } from "@/services/adapters/kulturkalender/kulturkalender.source.schema";
 import { NormalizedEventSchema } from "@/types/normalized-event.schema";
 
-import { toIcsDateArray } from "./helpers/ics-date";
+import { parseLocalIsoToDate, toIcsDateArray, mapStatus } from "./helpers/ics-date";
 import { eventsToIcs } from "./ics-formatter";
 
 vi.mock("@/services/shared/venue/lookup", () => ({
@@ -95,6 +95,191 @@ describe("ICS Formatter", () => {
 
     it("toIcsDateArray handles midnight (missing time)", () => {
       expect(toIcsDateArray("2026-01-01T00:00:00")).toEqual([2026, 1, 1, 0, 0]);
+    });
+
+    it("toIcsDateArray defaults time when T part is absent", () => {
+      expect(toIcsDateArray("2026-06-15")).toEqual([2026, 6, 15, 0, 0]);
+    });
+
+    it("parseLocalIsoToDate handles date-only string without time", () => {
+      const date = parseLocalIsoToDate("2026-06-15");
+      expect(date.getUTCFullYear()).toBe(2026);
+      expect(date.getUTCMonth()).toBe(5); // June = 5
+      expect(date.getUTCDate()).toBe(15);
+      expect(date.getUTCHours()).toBe(0);
+    });
+
+    it("parseLocalIsoToDate parses full datetime", () => {
+      const date = parseLocalIsoToDate("2026-03-29T14:30:00");
+      expect(date.getUTCHours()).toBe(14);
+      expect(date.getUTCMinutes()).toBe(30);
+    });
+
+    it("mapStatus covers all statuses", () => {
+      expect(mapStatus("confirmed")).toBe("CONFIRMED");
+      expect(mapStatus("tentative")).toBe("TENTATIVE");
+      expect(mapStatus("cancelled")).toBe("CANCELLED");
+    });
+
+    it("omits location when empty string", () => {
+      const event = {
+        id: "test-1",
+        summary: "No Location",
+        description: "",
+        start: "2026-05-01T10:00:00",
+        end: null,
+        timeZone: "Europe/Berlin",
+        location: "",
+        category: "",
+        organizer: "Org",
+        organizerEmail: null,
+        link: "https://example.com",
+        image: null,
+        status: "confirmed" as const,
+        source: "kulturkalender-greifswald",
+        tags: [],
+        updated: "2026-01-01T00:00:00Z",
+      };
+      const ics = eventsToIcs([event]);
+      expect(ics).not.toContain("LOCATION:");
+    });
+
+    it("omits organizer when empty string", () => {
+      const event = {
+        id: "test-2",
+        summary: "No Organizer",
+        description: "",
+        start: "2026-05-01T10:00:00",
+        end: null,
+        timeZone: "Europe/Berlin",
+        location: "Somewhere",
+        category: "Musik",
+        organizer: "",
+        organizerEmail: null,
+        link: "https://example.com",
+        image: null,
+        status: "confirmed" as const,
+        source: "kulturkalender-greifswald",
+        tags: [],
+        updated: "2026-01-01T00:00:00Z",
+      };
+      const ics = eventsToIcs([event]);
+      expect(ics).not.toContain("ORGANIZER");
+    });
+
+    it("omits categories when no category", () => {
+      const event = {
+        id: "test-3",
+        summary: "No Category",
+        description: "",
+        start: "2026-05-01T10:00:00",
+        end: null,
+        timeZone: "Europe/Berlin",
+        location: "",
+        category: "",
+        organizer: "",
+        organizerEmail: null,
+        link: "https://example.com",
+        image: null,
+        status: "confirmed" as const,
+        source: "kulturkalender-greifswald",
+        tags: [],
+        updated: "2026-01-01T00:00:00Z",
+      };
+      const ics = eventsToIcs([event]);
+      expect(ics).not.toContain("CATEGORIES:");
+    });
+
+    it("uses venue email when organizerEmail is provided", () => {
+      const event = {
+        id: "test-4",
+        summary: "With Email",
+        description: "",
+        start: "2026-05-01T10:00:00",
+        end: null,
+        timeZone: "Europe/Berlin",
+        location: "Kirche Wieck",
+        category: "Musik",
+        organizer: "Kulturverein",
+        organizerEmail: "kultur@greifswald.de",
+        link: "https://example.com",
+        image: null,
+        status: "confirmed" as const,
+        source: "kulturkalender-greifswald",
+        tags: [],
+        updated: "2026-01-01T00:00:00Z",
+      };
+      const ics = eventsToIcs([event]);
+      expect(ics).toContain("MAILTO:kultur@greifswald.de");
+    });
+
+    it("falls back to default email when organizerEmail is null", () => {
+      const event = {
+        id: "test-5",
+        summary: "No Email",
+        description: "",
+        start: "2026-05-01T10:00:00",
+        end: null,
+        timeZone: "Europe/Berlin",
+        location: "Somewhere",
+        category: "Musik",
+        organizer: "Kulturverein",
+        organizerEmail: null,
+        link: "https://example.com",
+        image: null,
+        status: "confirmed" as const,
+        source: "kulturkalender-greifswald",
+        tags: [],
+        updated: "2026-01-01T00:00:00Z",
+      };
+      const ics = eventsToIcs([event]);
+      expect(ics).toContain("MAILTO:info@greifswald.de");
+    });
+
+    it("maps tentative status", () => {
+      const event = {
+        id: "test-6",
+        summary: "Tentative",
+        description: "",
+        start: "2026-05-01T10:00:00",
+        end: null,
+        timeZone: "Europe/Berlin",
+        location: "",
+        category: "",
+        organizer: "",
+        organizerEmail: null,
+        link: "https://example.com",
+        image: null,
+        status: "tentative" as const,
+        source: "kulturkalender-greifswald",
+        tags: [],
+        updated: "2026-01-01T00:00:00Z",
+      };
+      const ics = eventsToIcs([event]);
+      expect(ics).toContain("STATUS:TENTATIVE");
+    });
+
+    it("maps cancelled status", () => {
+      const event = {
+        id: "test-7",
+        summary: "Cancelled",
+        description: "",
+        start: "2026-05-01T10:00:00",
+        end: null,
+        timeZone: "Europe/Berlin",
+        location: "",
+        category: "",
+        organizer: "",
+        organizerEmail: null,
+        link: "https://example.com",
+        image: null,
+        status: "cancelled" as const,
+        source: "kulturkalender-greifswald",
+        tags: [],
+        updated: "2026-01-01T00:00:00Z",
+      };
+      const ics = eventsToIcs([event]);
+      expect(ics).toContain("STATUS:CANCELLED");
     });
   });
 });
