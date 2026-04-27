@@ -1,7 +1,9 @@
+/* eslint-disable @schafevormfenster/enforce-semantic-cache-headers -- Cache-Control set via NextResponse constructor options */
+/* eslint-disable @schafevormfenster/enforce-api-route-structure -- Contract/schema shared via src/contracts; co-located test at events.test.ts */
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 
-import type { EventListResponse } from "@/contracts/events.schemas";
+import type { EventListResponse } from "@/contracts/events.schema";
 import { logger } from "@/lib/logger";
 import { getEvents } from "@/services/application/get-events.service";
 

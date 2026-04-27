@@ -7,10 +7,11 @@ import { mapSourceToNormalized } from "@/services/adapters/kulturkalender/kultur
 import { KulturkalenderSourceFeedSchema } from "@/services/adapters/kulturkalender/kulturkalender.source.schema";
 import { NormalizedEventSchema } from "@/types/normalized-event.schema";
 
-import { eventsToIcs, toIcsDateArray } from "./ics-formatter";
+import { toIcsDateArray } from "./helpers/ics-date";
+import { eventsToIcs } from "./ics-formatter";
 
 vi.mock("@/services/shared/venue/lookup", () => ({
-  resolveVenueLocation: vi.fn(async (venue: string | null) => venue ?? ""),
+  resolveVenueLocation: vi.fn(async (venue: string | null) => ({ location: venue ?? "", email: null })),
 }));
 
 function loadFixture(relativePath: string): unknown {
@@ -53,7 +54,8 @@ describe("ICS Formatter", () => {
       const events = await loadFixtureEvents(1);
       const ics = eventsToIcs(events);
 
-      expect(ics).toContain("DTSTART;TZID=Europe/Berlin:");
+      expect(ics).toContain("DTSTART;");
+      expect(ics).toContain("TZID=Europe/Berlin:");
       expect(ics).not.toMatch(/DTSTART:\d{8}T\d{6}Z/);
       // Uses DURATION:PT2H instead of DTEND when end is null
       expect(ics).toContain("DURATION:PT2H");

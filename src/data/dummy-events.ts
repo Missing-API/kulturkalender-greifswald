@@ -1,3 +1,4 @@
+/* eslint-disable @schafevormfenster/enforce-folder-structure -- Dummy/seed data kept in src/data for spike; will be removed for production */
 import type { KulturkalenderSourceEvent } from "../services/adapters/kulturkalender/kulturkalender.source.schema";
 
 /**

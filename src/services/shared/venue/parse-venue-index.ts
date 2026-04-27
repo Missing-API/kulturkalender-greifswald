@@ -1,3 +1,4 @@
+/* eslint-disable @schafevormfenster/one-function-per-file -- Venue index: parseVenueIndex + normalizeVenueName are a cohesive pair */
 import * as cheerio from "cheerio";
 
 export interface VenueIndexEntry {

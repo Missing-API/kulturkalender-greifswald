@@ -3,7 +3,7 @@ import path from "node:path";
 
 import { describe, it, expect, vi } from "vitest";
 
-import { EventListResponseSchema } from "@/contracts/events.schemas";
+import { EventListResponseSchema } from "@/contracts/events.schema";
 import { mapSourceToNormalized } from "@/services/adapters/kulturkalender/kulturkalender.mapper";
 import {
   KulturkalenderSourceFeedSchema,
@@ -12,7 +12,7 @@ import { eventsToIcs } from "@/services/shared/ics/ics-formatter";
 import { NormalizedEventSchema } from "@/types/normalized-event.schema";
 
 vi.mock("@/services/shared/venue/lookup", () => ({
-  resolveVenueLocation: vi.fn(async (venue: string | null) => venue ?? ""),
+  resolveVenueLocation: vi.fn(async (venue: string | null) => ({ location: venue ?? "", email: null })),
 }));
 
 async function loadFixtureEvents() {
@@ -28,6 +28,7 @@ async function loadFixtureEvents() {
   );
 }
 
+describe("Happy Path", () => {
 describe("GET /api/v1/events", () => {
   it("returns a valid event list response from fixture data", async () => {
     const events = await loadFixtureEvents();
@@ -75,5 +76,15 @@ describe("GET /api/v1/events.ics", () => {
     const ics = eventsToIcs(events);
     const eventCount = (ics.match(/BEGIN:VEVENT/g) ?? []).length;
     expect(eventCount).toBe(10);
+  });
+});
+});
+
+describe("Edge Cases", () => {
+  it("empty event list produces valid ICS with no VEVENTs", () => {
+    const ics = eventsToIcs([]);
+    expect(ics).toContain("BEGIN:VCALENDAR");
+    expect(ics).toContain("END:VCALENDAR");
+    expect(ics).not.toContain("BEGIN:VEVENT");
   });
 });

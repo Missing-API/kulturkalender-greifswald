@@ -36,7 +36,7 @@ Implement first zod schemas before business logic:
 
 1. Source payload schema (`kulturkalender.source.schema.ts`)
 2. Normalized event schema (`normalized-event.schema.ts`)
-3. Public API DTO schemas (`events.schemas.ts`)
+3. Public API DTO schemas (`events.schema.ts`)
 
 Use strict schemas, descriptions, defaults, and deterministic transforms as specified in [architecture.md](architecture.md).
 

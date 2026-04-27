@@ -8,7 +8,7 @@ These conventions are derived from proven patterns in `allris-ics` and `kirche-m
 
 ## ICS Library
 
-Use the forked `ics` library from `https://github.com/schafevormfenster/ics.git` (supports `htmlContent` for `X-ALT-DESC`).
+Use [`ts-ics`](https://github.com/Neuvernetzung/ts-ics) for TypeScript-native ICS generation with structured types. HTML descriptions are rendered via the `nonStandard` generic for `X-ALT-DESC;FMTTYPE=text/html`.
 
 ## VCALENDAR Properties
 
@@ -37,7 +37,7 @@ A full `VTIMEZONE` block for `Europe/Berlin` (with DAYLIGHT/STANDARD rules) must
 | LOCATION | `normalizedEvent.location` | Escaped |
 | URL | `normalizedEvent.link` | Link to original event page |
 | CATEGORIES | `normalizedEvent.category` | Source category used as tag label |
-| ORGANIZER;CN={name} | `normalizedEvent.organizer` or fallback | Fallback: `Kulturkalender Greifswald` |
+| ORGANIZER;CN={name} | `normalizedEvent.organizer` or fallback | Fallback: `Kulturkalender Greifswald`. RFC 5545 requires a `MAILTO:` cal-address; uses `noreply@kulturkalender-greifswald.de` |
 | STATUS | `normalizedEvent.status` mapped to ICS values | `confirmed` → `CONFIRMED`, `cancelled` → `CANCELLED`, `tentative` → `TENTATIVE` |
 | DTSTAMP | `normalizedEvent.updated` | Last modification timestamp |
 | LAST-MODIFIED | `normalizedEvent.updated` | Same as DTSTAMP |
@@ -230,11 +230,11 @@ Format for the `ics` library:
 ```ts
 organizer: {
   name: event.organizer || "Kulturkalender Greifswald",
-  email: "info@greifswald.de",
+  email: venue?.email || "info@greifswald.de",
 }
 ```
 
-When `organizer` is empty/null, use the fallback name.
+The email is scraped from the venue detail page (see [data-source.md](../data-source.md) — Venue Detail Page Parsing). When a venue has no email address, fall back to `"info@greifswald.de"`. When `organizer` is empty/null, use the fallback name.
 
 ## Response Headers
 

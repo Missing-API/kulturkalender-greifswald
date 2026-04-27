@@ -4,6 +4,7 @@ export interface GeneratedVenueEntry {
   street?: string;
   city?: string;
   location: string;
+  email: string | null;
   url: string;
 }
 

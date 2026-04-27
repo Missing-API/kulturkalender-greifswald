@@ -18,6 +18,7 @@ export const NormalizedEventSchema = z
     location: z.string().default("").describe("Normalized location/venue text"),
     category: z.string().default("").describe("Event category"),
     organizer: z.string().default("").describe("Organizer name"),
+    organizerEmail: z.string().email().nullable().default(null).describe("Organizer email scraped from venue page"),
     link: z.string().url().describe("Link to original event page"),
     image: z.string().nullable().default(null).describe("Event image URL"),
     status: z

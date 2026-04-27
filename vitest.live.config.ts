@@ -13,10 +13,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(currentDir, "./src"),
-      "@schafevormfenster/data-text-mapper": path.resolve(
-        currentDir,
-        "node_modules/@schafevormfenster/data-text-mapper/src/index.ts"
-      ),
     },
   },
   test: {

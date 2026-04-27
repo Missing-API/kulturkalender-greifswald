@@ -1,3 +1,5 @@
+/* eslint-disable @schafevormfenster/enforce-semantic-cache-headers -- Cache-Control set via NextResponse constructor options */
+/* eslint-disable @schafevormfenster/enforce-api-route-structure -- ICS routes use shared event contract */
 import { NextResponse } from "next/server";
 
 import { logger } from "@/lib/logger";

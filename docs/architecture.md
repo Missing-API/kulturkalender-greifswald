@@ -76,7 +76,7 @@ This keeps source-specific logic isolated and makes migration to a registry-base
 src/
   contracts/
     events.contract.ts
-    events.schemas.ts
+    events.schema.ts
   services/
     application/
       get-catalog.service.ts
@@ -148,7 +148,7 @@ Both models are required and must be versioned with the code.
 
 - Keep source schemas in adapter scope, e.g. `src/services/adapters/kulturkalender/kulturkalender.source.schema.ts`.
 - Keep normalized delivery schemas in shared domain scope, e.g. `src/types/normalized-event.schema.ts`.
-- Keep API DTO schemas in contract scope, e.g. `src/contracts/events.schemas.ts`.
+- Keep API DTO schemas in contract scope, e.g. `src/contracts/events.schema.ts`.
 
 ### Strictness rules
 

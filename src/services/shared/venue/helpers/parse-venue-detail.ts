@@ -5,6 +5,7 @@ export interface VenueDetail {
   street?: string;
   city?: string;
   location: string;
+  email: string | null;
 }
 
 const PHONE_EMAIL_PATTERN = /^[\d\s+()/-]+$|@|^https?:\/\//;
@@ -39,5 +40,9 @@ export function parseVenueDetail(html: string): VenueDetail | null {
   const locationParts = [name, street, city].filter(Boolean);
   const location = locationParts.join(", ");
 
-  return { name, street, city, location };
+  const emailEl = $("div.mt-1 a[href^='mailto:']").first();
+  const emailHref = emailEl.attr("href") ?? "";
+  const email = emailHref.startsWith("mailto:") ? emailHref.slice(7) : null;
+
+  return { name, street, city, location, email };
 }

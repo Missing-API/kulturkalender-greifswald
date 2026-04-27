@@ -3,7 +3,7 @@ import path from "node:path";
 
 import { describe, it, expect } from "vitest";
 
-import { parseVenueDetail } from "./parse-venue-detail";
+import { parseVenueDetail } from "./helpers/parse-venue-detail";
 import { normalizeVenueName, parseVenueIndex } from "./parse-venue-index";
 
 function loadFixture(relativePath: string): string {
@@ -11,6 +11,7 @@ function loadFixture(relativePath: string): string {
   return fs.readFileSync(filePath, "utf8");
 }
 
+describe("Happy Path", () => {
 describe("parseVenueIndex", () => {
   it("extracts venue entries from index HTML", () => {
     const html = loadFixture("fixtures/venues/index.html");
@@ -50,7 +51,9 @@ describe("normalizeVenueName", () => {
     expect(normalizeVenueName("Universität")).toBe("universität");
   });
 });
+});
 
+describe("Edge Cases", () => {
 describe("parseVenueDetail", () => {
   it("extracts full address from venue 230 fixture", () => {
     const html = loadFixture("fixtures/venues/230.html");
@@ -63,6 +66,7 @@ describe("parseVenueDetail", () => {
     expect(result?.location).toBe(
       "Kleine Rathausgalerie, Markt, 17489 Greifswald"
     );
+    expect(result?.email).toBe("kultur@greifswald.de");
   });
 
   it("extracts address from venue 42 fixture (no phone)", () => {
@@ -74,6 +78,7 @@ describe("parseVenueDetail", () => {
     expect(result?.location).toBe(
       "Kirche Wieck, Kirchstraße 1, 17493 Greifswald"
     );
+    expect(result?.email).toBe("esg@pek.de");
   });
 
   it("filters out phone numbers from address", () => {
@@ -88,6 +93,18 @@ describe("parseVenueDetail", () => {
     expect(result).toBeNull();
   });
 
+  it("returns null email when venue has no mailto link", () => {
+    const html = loadFixture("fixtures/venues/354.html");
+    const result = parseVenueDetail(html);
+
+    expect(result).not.toBeNull();
+    expect(result?.name).toBe("Innenhof des Pommerschen Landesmuseums");
+    expect(result?.location).toBe(
+      "Innenhof des Pommerschen Landesmuseums, Rakower Straße 9, 17489 Greifswald"
+    );
+    expect(result?.email).toBeNull();
+  });
+
   it("returns name-only location when no address spans", () => {
     const html = `<html><body>
       <div>
@@ -99,5 +116,7 @@ describe("parseVenueDetail", () => {
     expect(result).not.toBeNull();
     expect(result?.location).toBe("Solo Venue");
     expect(result?.street).toBeUndefined();
+    expect(result?.email).toBeNull();
   });
+});
 });

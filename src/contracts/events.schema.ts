@@ -1,3 +1,4 @@
+/* eslint-disable @schafevormfenster/enforce-folder-structure -- API DTO schemas co-located with contracts by convention */
 import { z } from "zod";
 
 /**
@@ -14,6 +15,7 @@ export const EventDtoSchema = z
     location: z.string().describe("Venue/location name"),
     category: z.string().describe("Event category"),
     organizer: z.string().describe("Organizer name"),
+    organizerEmail: z.string().nullable().describe("Organizer email from venue page or null"),
     link: z.string().describe("Link to original event"),
     image: z.string().nullable().describe("Image URL or null"),
     status: z

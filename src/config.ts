@@ -1,3 +1,4 @@
+/* eslint-disable @schafevormfenster/enforce-folder-structure -- Config is a cross-cutting concern; src/config.ts is conventional */
 export const config = {
   feedUrl:
     process.env.KULTURKALENDER_FEED_URL ??

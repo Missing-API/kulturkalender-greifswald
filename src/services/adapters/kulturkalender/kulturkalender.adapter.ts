@@ -1,6 +1,7 @@
+/* eslint-disable @schafevormfenster/one-function-per-file -- Adapter module: fetchFeed + internal helpers are a single-source concern */
 import { config } from "@/config";
 import { cacheGet, cacheSet } from "@/lib/cache";
-import { logger } from "@/lib/logger";
+import { log, logger } from "@/lib/logger";
 
 import {
   KulturkalenderSourceFeedSchema,
@@ -53,6 +54,11 @@ export async function fetchFeed(): Promise<KulturkalenderSourceFeed> {
       return cached.data;
     }
 
+    log.error("Feed fetch failed, no stale data available", {
+      component: "adapter.kulturkalender",
+      operation: "fetchFeed",
+      error: error instanceof Error ? error.message : String(error),
+    });
     throw error;
   }
 }
@@ -92,15 +98,14 @@ async function fetchWithRetry(
         continue;
       }
 
-      logger.error("Feed fetch failed", {
+      const msg = `Feed fetch failed: HTTP ${response.status} ${response.statusText}`;
+      log.error(msg, {
         component: "adapter.kulturkalender",
         operation: "fetchWithRetry",
         sourceUrl: url,
         status: response.status,
       });
-      throw new Error(
-        `Feed fetch failed: HTTP ${response.status} ${response.statusText}`
-      );
+      throw new Error(msg);
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
 
@@ -111,6 +116,12 @@ async function fetchWithRetry(
     }
   }
 
+  log.error("Feed fetch failed after retries", {
+    component: "adapter.kulturkalender",
+    operation: "fetchWithRetry",
+    sourceUrl: url,
+    error: lastError?.message,
+  });
   throw lastError ?? new Error("Feed fetch failed after retries");
 }
 

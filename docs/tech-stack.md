@@ -25,14 +25,10 @@ Use this package to keep semantic metadata in a structured form and generate det
 Source parsing modules:
 
 - Feed parsing (ICS input when needed): `node-ical`
-- ICS generation: `ics`
+- ICS generation: `ts-ics`
 - HTML scraping (venue details fallback): `cheerio`
 
 The adapter delivers both JSON and ICS outputs, so ICS-related modules are part of the baseline stack.
-
-### Future Consideration: ts-ics
-
-Evaluate [`ts-ics`](https://github.com/Neuvernetzung/ts-ics) as a potential replacement for the `ics` package. It offers a TypeScript-native, zod-integrated approach to ICS generation and parsing which may align better with the schema-first design of this project. Track releases at <https://github.com/Neuvernetzung/ts-ics/releases>.
 
 ## Quality and Linting
 

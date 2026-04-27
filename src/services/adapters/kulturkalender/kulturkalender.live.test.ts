@@ -7,6 +7,7 @@ import { NormalizedEventSchema } from "@/types/normalized-event.schema";
 
 const TIMEOUT = 15_000;
 
+describe("Happy Path", () => {
 describe("Live: Feed source", () => {
   it("returns HTTP 200", async () => {
     const response = await fetch(config.feedUrl, {
@@ -78,4 +79,5 @@ describe("Live: Venue source", () => {
     });
     expect(detailResponse.ok).toBe(true);
   }, TIMEOUT);
+});
 });

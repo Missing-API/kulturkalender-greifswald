@@ -12,7 +12,7 @@ import {
 } from "./kulturkalender.source.schema";
 
 vi.mock("@/services/shared/venue/lookup", () => ({
-  resolveVenueLocation: vi.fn(async (venue: string | null) => venue ?? ""),
+  resolveVenueLocation: vi.fn(async (venue: string | null) => ({ location: venue ?? "", email: null })),
 }));
 
 const validSourceEvent = {
@@ -38,6 +38,7 @@ function loadFixture(relativePath: string): unknown {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
+describe("Happy Path", () => {
 describe("KulturkalenderSourceEventSchema", () => {
   it("parses a valid source event", () => {
     const result = KulturkalenderSourceEventSchema.parse(validSourceEvent);
@@ -243,7 +244,9 @@ describe("mapSourceToNormalized", () => {
     expect(mapped.tags).toEqual([]);
   });
 });
+});
 
+describe("Edge Cases", () => {
 describe("NormalizedEventSchema", () => {
   it("applies defaults and transforms", () => {
     const input = {
@@ -270,4 +273,5 @@ describe("NormalizedEventSchema", () => {
     };
     expect(() => NormalizedEventSchema.parse(invalid)).toThrow();
   });
+});
 });

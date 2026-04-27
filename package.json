@@ -14,24 +14,24 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "check": "pnpm typecheck && pnpm lint && pnpm build && pnpm test",
+    "check": "pnpm typecheck && pnpm lint && pnpm build && pnpm test:coverage",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e:live": "vitest run --config vitest.live.config.ts"
   },
   "dependencies": {
-    "@schafevormfenster/data-text-mapper": "^0.2.2",
-    "@schafevormfenster/rest-commons": "^0.1.10",
+    "@schafevormfenster/data-text-mapper": "^0.2.3",
+    "@schafevormfenster/rest-commons": "^0.1.11",
     "@schafevormfenster/ts-rest-zod-handler": "^0.1.8",
     "@ts-rest/core": "^3.52.1",
     "@ts-rest/open-api": "^3.52.1",
     "cheerio": "^1.2.0",
-    "ics": "github:schafevormfenster/ics",
     "next": "^16.2.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "swagger-ui-react": "^5.32.4",
+    "ts-ics": "^2.4.4",
     "zod": "3"
   },
   "devDependencies": {

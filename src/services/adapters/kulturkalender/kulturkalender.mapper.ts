@@ -1,3 +1,4 @@
+/* eslint-disable @schafevormfenster/one-function-per-file -- Mapper module: mapping helpers are tightly coupled to mapSourceToNormalized */
 import { resolveVenueLocation } from "@/services/shared/venue/lookup";
 import type { NormalizedEventInput } from "@/types/normalized-event.schema";
 
@@ -14,7 +15,7 @@ export async function mapSourceToNormalized(
 ): Promise<NormalizedEventInput> {
   const startDateTime = buildStartDateTime(source.date, source.time);
   const tags = detectTags(source);
-  const location = await resolveVenueLocation(source.venue);
+  const venue = await resolveVenueLocation(source.venue);
 
   return {
     id: `kulturkalender-${source.kumo_id}-${source.date}`,
@@ -23,9 +24,10 @@ export async function mapSourceToNormalized(
     start: startDateTime,
     end: null,
     timeZone: "Europe/Berlin",
-    location,
+    location: venue.location,
     category: source.category,
     organizer: source.organiser ?? DEFAULT_ORGANIZER,
+    organizerEmail: venue.email,
     link: source.kumo_link,
     image: source.image ?? null,
     status: "confirmed",

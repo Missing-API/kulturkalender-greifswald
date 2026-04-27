@@ -1,14 +1,15 @@
+/* eslint-disable @schafevormfenster/one-function-per-file -- Venue lookup: resolveVenueLocation + loadVenueMap + venueCache are a cohesive lookup unit */
 import { config } from "@/config";
 
 import { fetchVenueDetail } from "./fetch";
 import { normalizeVenueName, parseVenueIndex } from "./parse-venue-index";
-import type { GeneratedVenuesFile } from "./types";
+import type { GeneratedVenuesFile } from "./venue.types";
 
 /**
  * Module-level runtime cache for lazily fetched venues.
  * Persists across requests within the same serverless invocation.
  */
-const runtimeCache = new Map<string, string>();
+const runtimeCache = new Map<string, VenueResolution>();
 
 /**
  * Module-level cache for the venue index (fetched once per function lifetime).
@@ -16,6 +17,11 @@ const runtimeCache = new Map<string, string>();
 let venueIndexCache: Map<string, { id: string; url: string }> | null = null;
 
 let staticVenues: GeneratedVenuesFile | null = null;
+
+export interface VenueResolution {
+  location: string;
+  email: string | null;
+}
 
 /**
  * Load the static venue map generated at build time.
@@ -38,16 +44,16 @@ async function getStaticVenues(): Promise<GeneratedVenuesFile> {
 }
 
 /**
- * Resolves venue location string using two-layer lookup:
+ * Resolves venue location and email using two-layer lookup:
  * 1. Static map (venues.generated.json) — instant
  * 2. Runtime lazy fetch — single venue, 5s timeout
  * 3. Fallback to raw venue text from feed
  */
 export async function resolveVenueLocation(
   venueName: string | null
-): Promise<string> {
+): Promise<VenueResolution> {
   if (!venueName) {
-    return "";
+    return { location: "", email: null };
   }
 
   const key = normalizeVenueName(venueName);
@@ -56,7 +62,7 @@ export async function resolveVenueLocation(
   const staticData = await getStaticVenues();
   const staticEntry = staticData.venues[key];
   if (staticEntry) {
-    return staticEntry.location;
+    return { location: staticEntry.location, email: staticEntry.email ?? null };
   }
 
   // Layer 2a: Runtime cache
@@ -73,8 +79,9 @@ export async function resolveVenueLocation(
     if (indexEntry) {
       const detail = await fetchVenueDetail(indexEntry.url);
       if (detail) {
-        runtimeCache.set(key, detail.location);
-        return detail.location;
+        const resolution: VenueResolution = { location: detail.location, email: detail.email };
+        runtimeCache.set(key, resolution);
+        return resolution;
       }
     }
   } catch {
@@ -82,8 +89,9 @@ export async function resolveVenueLocation(
   }
 
   // Layer 3: Fallback to raw venue name
-  runtimeCache.set(key, venueName);
-  return venueName;
+  const fallback: VenueResolution = { location: venueName, email: null };
+  runtimeCache.set(key, fallback);
+  return fallback;
 }
 
 async function getVenueIndex(): Promise<

@@ -1,3 +1,4 @@
+/* eslint-disable @schafevormfenster/one-function-per-file -- Cache module: get/set/delete/has are a cohesive CRUD surface */
 import { logger } from "@/lib/logger";
 
 interface CacheEntry<T> {
@@ -39,4 +40,17 @@ export function cacheGet<T>(key: string): { data: T; stale: boolean } | null {
 export function cacheSet<T>(key: string, data: T, ttlMs: number): void {
   cache.set(key, { data, createdAt: Date.now(), ttlMs });
   logger.debug("Cache set", { component: "cache", operation: "set", key, ttlMs });
+}
+
+/**
+ * Delete a specific key from the cache.
+ */
+export function cacheDelete(key: string): boolean {
+  const deleted = cache.delete(key);
+  logger.debug(deleted ? "Cache delete" : "Cache delete miss", {
+    component: "cache",
+    operation: "delete",
+    key,
+  });
+  return deleted;
 }

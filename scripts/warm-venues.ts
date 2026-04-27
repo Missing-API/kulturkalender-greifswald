@@ -1,3 +1,4 @@
+/* eslint-disable @schafevormfenster/prefer-custom-logger -- Standalone build-time script, logger not available */
 /**
  * Build-time venue warm-up script.
  * Fetches all venue detail pages and writes venues.generated.json.
@@ -9,7 +10,7 @@ import path from "node:path";
 
 import * as cheerio from "cheerio";
 
-import type { GeneratedVenueEntry, GeneratedVenuesFile } from "../src/services/shared/venue/types";
+import type { GeneratedVenueEntry, GeneratedVenuesFile } from "../src/services/shared/venue/venue.types";
 
 const VENUES_BASE_URL =
   process.env.VENUES_BASE_URL ??
@@ -19,6 +20,10 @@ const DELAY_MS = 300;
 const TIMEOUT_MS = 10_000;
 
 const PHONE_EMAIL_PATTERN = /^[\d\s+()/-]+$|@|^https?:\/\//;
+
+const log = {
+  error: (...args: unknown[]) => console.error("[warm-venues]", ...args),
+};
 
 interface IndexEntry {
   id: string;
@@ -34,6 +39,7 @@ async function main(): Promise<void> {
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
   if (!response.ok) {
+    log.error(`HTTP ${response.status} for ${VENUES_BASE_URL}`);
     throw new Error(`HTTP ${response.status} for ${VENUES_BASE_URL}`);
   }
   const indexHtml = await response.text();
@@ -71,6 +77,7 @@ async function main(): Promise<void> {
           signal: AbortSignal.timeout(TIMEOUT_MS),
         });
         if (!res.ok) {
+          log.error(`HTTP ${res.status} for ${entry.url}`);
           throw new Error(`HTTP ${res.status} for ${entry.url}`);
         }
         const html = await res.text();
@@ -99,12 +106,17 @@ async function main(): Promise<void> {
         const city = addressLines[1];
         const locationParts = [detailName, street, city].filter(Boolean);
 
+        const emailEl = $d("div.mt-1 a[href^='mailto:']").first();
+        const emailHref = emailEl.attr("href") ?? "";
+        const email = emailHref.startsWith("mailto:") ? emailHref.slice(7) : null;
+
         venues[entry.normalizedName] = {
           id: entry.id,
           name: detailName,
           street,
           city,
           location: locationParts.join(", "),
+          email,
           url: entry.url,
         };
       } else {

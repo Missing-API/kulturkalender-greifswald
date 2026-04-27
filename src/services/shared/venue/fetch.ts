@@ -1,6 +1,6 @@
 import { config } from "@/config";
 
-import { parseVenueDetail, type VenueDetail } from "./parse-venue-detail";
+import { parseVenueDetail, type VenueDetail } from "./helpers/parse-venue-detail";
 
 /**
  * Fetches and parses a single venue detail page at runtime.

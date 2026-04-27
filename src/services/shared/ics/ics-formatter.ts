@@ -1,121 +1,101 @@
-import { createEvents, type EventAttributes } from "ics";
+import {
+  generateIcsCalendar,
+  type IcsCalendar,
+  type IcsEvent,
+  type IcsTimezone,
+} from "ts-ics";
 
 import type { NormalizedEvent } from "@/types/normalized-event.schema";
 
 import { buildIcsDescription, buildIcsHtmlDescription } from "./build-ics-description";
+import { mapStatus, toIcsDateObject } from "./helpers/ics-date";
 
-const VTIMEZONE_BLOCK = `BEGIN:VTIMEZONE
-TZID:Europe/Berlin
-X-LIC-LOCATION:Europe/Berlin
-BEGIN:DAYLIGHT
-TZOFFSETFROM:+0100
-TZOFFSETTO:+0200
-TZNAME:CEST
-DTSTART:19700329T020000
-RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
-END:DAYLIGHT
-BEGIN:STANDARD
-TZOFFSETFROM:+0200
-TZOFFSETTO:+0100
-TZNAME:CET
-DTSTART:19701025T030000
-RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
-END:STANDARD
-END:VTIMEZONE`;
+type AltDescNonStandard = { altDesc: string };
+
+const EUROPE_BERLIN_TIMEZONE: IcsTimezone<AltDescNonStandard> = {
+  id: "Europe/Berlin",
+  props: [
+    {
+      type: "DAYLIGHT",
+      start: new Date(Date.UTC(1970, 2, 29, 2, 0, 0)),
+      offsetFrom: "+0100",
+      offsetTo: "+0200",
+      name: "CEST",
+      recurrenceRule: {
+        frequency: "YEARLY",
+        byMonth: [3],
+        byDay: [{ day: "SU", occurrence: -1 }],
+      },
+    },
+    {
+      type: "STANDARD",
+      start: new Date(Date.UTC(1970, 9, 25, 3, 0, 0)),
+      offsetFrom: "+0200",
+      offsetTo: "+0100",
+      name: "CET",
+      recurrenceRule: {
+        frequency: "YEARLY",
+        byMonth: [10],
+        byDay: [{ day: "SU", occurrence: -1 }],
+      },
+    },
+  ],
+};
+
+const DEFAULT_ORGANIZER_EMAIL = "info@greifswald.de";
 
 /**
- * Converts normalized events to ICS calendar string.
- * Applies VTIMEZONE injection and TZID post-processing for Google Calendar compatibility.
+ * Converts normalized events to ICS calendar string using ts-ics.
  */
 export function eventsToIcs(events: NormalizedEvent[]): string {
-  const icsEvents: EventAttributes[] = events.map((event) => ({
+  const now = new Date();
+
+  const icsEvents: IcsEvent<AltDescNonStandard>[] = events.map((event) => ({
     uid: event.id,
-    title: event.summary,
+    summary: event.summary,
     description: buildIcsDescription(event),
-    htmlContent: buildIcsHtmlDescription(event),
-    start: toIcsDateArray(event.start),
-    startInputType: "local" as const,
+    start: toIcsDateObject(event.start),
+    stamp: { date: now },
     duration: { hours: 2 },
-    location: event.location,
+    location: event.location || undefined,
     url: event.link,
     status: mapStatus(event.status),
     categories: event.category ? [event.category] : undefined,
     organizer: event.organizer
-      ? { name: event.organizer }
+      ? { name: event.organizer, email: event.organizerEmail || DEFAULT_ORGANIZER_EMAIL }
       : undefined,
-    productId: "kulturkalender-greifswald",
-    calName: "Kulturkalender Greifswald",
+    nonStandard: {
+      altDesc: buildIcsHtmlDescription(event),
+    },
   }));
 
-  const { error, value } = createEvents(icsEvents);
-  if (error) {
-    throw new Error(`ICS generation failed: ${error.message}`);
-  }
+  const calendar: IcsCalendar<AltDescNonStandard> = {
+    version: "2.0",
+    prodId: "kulturkalender-greifswald",
+    method: "PUBLISH",
+    name: "Kulturkalender Greifswald",
+    timezones: [EUROPE_BERLIN_TIMEZONE],
+    events: icsEvents,
+    nonStandard: {
+      altDesc: "", // calendar-level placeholder (not used)
+    },
+  };
 
-  return postProcessIcs(value ?? "");
-}
+  let ics = generateIcsCalendar<AltDescNonStandard>(calendar, {
+    nonStandard: {
+      altDesc: {
+        name: "X-ALT-DESC",
+        generate: (v) =>
+          v ? { value: v, options: { FMTTYPE: "text/html" } } : null,
+      },
+    },
+  });
 
-/**
- * Parse local ISO datetime string directly into ICS date array.
- * NEVER uses new Date() to avoid timezone drift.
- */
-export function toIcsDateArray(
-  localIso: string
-): [number, number, number, number, number] {
-  const [datePart, timePart] = localIso.split("T");
-  const [year, month, day] = datePart.split("-").map(Number);
-  const [hour, minute] = (timePart ?? "00:00:00").split(":").map(Number);
-  return [year, month, day, hour, minute];
-}
-
-function mapStatus(
-  status: "confirmed" | "tentative" | "cancelled"
-): "CONFIRMED" | "TENTATIVE" | "CANCELLED" {
-  const map = {
-    confirmed: "CONFIRMED",
-    tentative: "TENTATIVE",
-    cancelled: "CANCELLED",
-  } as const;
-  return map[status];
-}
-
-/**
- * Post-process the ICS output:
- * 1. Inject VTIMEZONE block after METHOD:PUBLISH
- * 2. Add X-WR-TIMEZONE header
- * 3. Replace UTC-suffixed dates with TZID-qualified dates
- */
-function postProcessIcs(ics: string): string {
-  let result = ics;
-
-  // Inject VTIMEZONE after METHOD:PUBLISH
-  result = result.replace(
-    "METHOD:PUBLISH",
-    `METHOD:PUBLISH\r\nX-WR-TIMEZONE:Europe/Berlin\r\nX-PUBLISHED-TTL:PT1H\r\n${VTIMEZONE_BLOCK}`
+  // Inject X-WR-TIMEZONE and X-PUBLISHED-TTL after METHOD:PUBLISH
+  ics = ics.replace(
+    "METHOD:PUBLISH\r\n",
+    "METHOD:PUBLISH\r\nX-WR-TIMEZONE:Europe/Berlin\r\nX-PUBLISHED-TTL:PT1H\r\n",
   );
 
-  // Replace DTSTART with Z suffix → DTSTART with TZID
-  result = result.replaceAll(
-    /DTSTART:(\d{8}T\d{6})Z/g,
-    "DTSTART;TZID=Europe/Berlin:$1"
-  );
-
-  // Replace DTEND with Z suffix → DTEND with TZID
-  result = result.replaceAll(
-    /DTEND:(\d{8}T\d{6})Z/g,
-    "DTEND;TZID=Europe/Berlin:$1"
-  );
-
-  // Handle case where library outputs without Z
-  result = result.replaceAll(
-    /DTSTART:(\d{8}T\d{6})(?!\r?\n)/g,
-    "DTSTART;TZID=Europe/Berlin:$1"
-  );
-
-  result = result.replaceAll(
-    /DTEND:(\d{8}T\d{6})(?!\r?\n)/g,
-    "DTEND;TZID=Europe/Berlin:$1"
-  );
-
-  return result;
+  return ics;
 }

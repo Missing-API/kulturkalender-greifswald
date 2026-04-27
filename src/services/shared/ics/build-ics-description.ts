@@ -1,5 +1,5 @@
-import { dataToHtml, dataToText, type TextWithData } from "@schafevormfenster/data-text-mapper";
-
+/* eslint-disable @schafevormfenster/one-function-per-file -- Description builders: plain-text + HTML are a cohesive pair */
+import { dataToHtml, dataToText, type TextWithData } from "@/lib/data-text-mapper";
 import type { NormalizedEvent } from "@/types/normalized-event.schema";
 
 /**
