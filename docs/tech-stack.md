@@ -33,6 +33,7 @@ The adapter delivers both JSON and ICS outputs, so ICS-related modules are part 
 ## Quality and Linting
 
 - ESLint config baseline: `@schafevormfenster/eslint-config`
+- Custom ESLint rules: `@schafevormfenster/eslint-plugin` (transitive dependency of the config)
 - Type checks: `tsc --noEmit`
 - Formatting policy: no formatter dependency is added in initial setup; formatting is handled by lint rules.
 
@@ -46,6 +47,47 @@ Recommended ESLint flat-config composition for this project:
 6. `@schafevormfenster/eslint-config/vitest` (when tests are added)
 
 This gives early guardrails for API contracts, logging discipline, and caching rules.
+
+### Mandatory: Read and Apply ESLint Rule Documentation
+
+The `@schafevormfenster/eslint-plugin` ships with detailed rule documentation and coding instruction guides. **All contributors (human and AI agents) must read the relevant guides before writing or reviewing code.** The rules are authoritative for this project.
+
+#### Rules Reference
+
+Read the full rules reference for an overview of all rules, their severity, and which config enables them:
+
+```text
+node_modules/@schafevormfenster/eslint-config/docs/RULES_REFERENCE.md
+```
+
+#### Instruction Guides
+
+The following instruction guides apply to this project's active ESLint configs. Read each guide that is relevant to the code you are writing or reviewing:
+
+| Guide | Relevant Config | Path in `node_modules/@schafevormfenster/eslint-plugin/` |
+| ----- | --------------- | -------------------------------------------------------- |
+| REST service design | `/rest` | `docs/instructions/rest-service-design-guide.md` |
+| Logging standards | `/logging` | `docs/instructions/logging-guide.md` |
+| Caching strategies | `/caching` | `docs/instructions/caching-guide.md` |
+| Architecture layers | `/architecture` | `docs/instructions/client-service-coordinator-guide.md` |
+| Testing standards | `/vitest` | `docs/instructions/testing-standards-guide.md` |
+| Unit test env vars | `/vitest` | `docs/instructions/unit-test-env-vars-guide.md` |
+| General coding | all | `docs/instructions/coding-guide.md` |
+
+#### Individual Rule Documentation
+
+Each custom rule has its own documentation file:
+
+```text
+node_modules/@schafevormfenster/eslint-plugin/docs/rules/<rule-name>.md
+```
+
+When an ESLint rule violation is reported, read the corresponding rule doc to understand the intent and correct fix.
+
+#### Online References
+
+- npm: <https://www.npmjs.com/package/@schafevormfenster/eslint-plugin>
+- Source: <https://github.com/schafe-vorm-fenster/commons/tree/main/packages/eslint-plugin>
 
 ## Testing
 
