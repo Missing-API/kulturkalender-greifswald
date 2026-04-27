@@ -135,8 +135,10 @@ Shared logic between build-time and runtime:
 - Preferred extraction selectors:
   - `span.d-block.fw-500 a` for venue name
   - `span.d-block` for address/contact lines
+  - `body > main > section > div > div:nth-child(2) > div.col-12.offset-0.col-md-5.offset-md-1 > div > div.mt-1 > span:nth-child(2) > a` for email address (used as `ORGANIZER` email in ICS output)
 - Remove empty lines and duplicate whitespace.
-- Ignore non-address lines (phone, email, web links) for the `location` field.
+- Ignore non-address lines (phone, web links) for the `location` field.
+- Extract the email address separately and store it in the `email` field of the venue data. When no email link is found, default to `null`.
 
 #### Normalized Location String
 
@@ -168,6 +170,7 @@ Shared logic between build-time and runtime:
       "street": "Kirchstraße 1",
       "city": "17493 Greifswald",
       "location": "Kirche Wieck, Kirchstraße 1, 17493 Greifswald",
+      "email": "kirche-wieck@example.de",
       "url": "https://www.kulturkalender.greifswald.de/venues/42"
     }
   }

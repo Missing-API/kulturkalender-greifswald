@@ -30,6 +30,10 @@ Source parsing modules:
 
 The adapter delivers both JSON and ICS outputs, so ICS-related modules are part of the baseline stack.
 
+### Future Consideration: ts-ics
+
+Evaluate [`ts-ics`](https://github.com/Neuvernetzung/ts-ics) as a potential replacement for the `ics` package. It offers a TypeScript-native, zod-integrated approach to ICS generation and parsing which may align better with the schema-first design of this project. Track releases at <https://github.com/Neuvernetzung/ts-ics/releases>.
+
 ## Quality and Linting
 
 - ESLint config baseline: `@schafevormfenster/eslint-config`
