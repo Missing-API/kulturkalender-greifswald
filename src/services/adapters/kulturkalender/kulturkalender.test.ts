@@ -95,7 +95,7 @@ describe("Full fixture validation", () => {
     for (const event of normalized) {
       expect(event.id).toBeTruthy();
       expect(event.summary).toBeTruthy();
-      expect(event.start).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/);
+      expect(event.start).toMatch(/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2})?$/);
       expect(event.source).toBe("kulturkalender-greifswald");
     }
   });
@@ -119,7 +119,7 @@ describe("Derived fixture: valid-minimal", () => {
 
     expect(normalized.organizer).toBe("Kulturkalender Greifswald");
     expect(normalized.location).toBe("");
-    expect(normalized.start).toBe("2026-01-01T00:00:00");
+    expect(normalized.start).toBe("2026-01-01");
     expect(normalized.tags).toEqual([]);
   });
 });
@@ -207,19 +207,20 @@ describe("mapSourceToNormalized", () => {
     const mapped = await mapSourceToNormalized(source);
 
     expect(mapped.id).toBe("kulturkalender-12345-2026-05-01");
+    expect(mapped.seriesId).toBe("kulturkalender-12345");
     expect(mapped.summary).toBe("Test Event");
     expect(mapped.start).toBe("2026-05-01T19:30:00");
     expect(mapped.location).toBe("Stadthalle");
     expect(mapped.organizer).toBe("Test Organiser");
   });
 
-  it("uses midnight when time is empty", async () => {
+  it("returns date-only string when time is empty (all-day event)", async () => {
     const source = KulturkalenderSourceEventSchema.parse({
       ...validSourceEvent,
       time: "",
     });
     const mapped = await mapSourceToNormalized(source);
-    expect(mapped.start).toBe("2026-05-01T00:00:00");
+    expect(mapped.start).toBe("2026-05-01");
   });
 
   it("builds description from subtitle and content", async () => {

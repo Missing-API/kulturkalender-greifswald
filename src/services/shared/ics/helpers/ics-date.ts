@@ -1,4 +1,8 @@
 /* eslint-disable @schafevormfenster/one-function-per-file -- ICS date helpers: parse/convert/status-map are a cohesive utility set */
+import { isAllDay } from "./ics-allday";
+
+export { isAllDay, toIcsAllDayEnd } from "./ics-allday";
+
 /**
  * Parse local ISO datetime string to a Date object without timezone drift.
  * The returned Date represents the wall-clock components (year, month, day, hour, minute)
@@ -25,6 +29,14 @@ export function toIcsDateArray(
 }
 
 export function toIcsDateObject(localIso: string) {
+  if (isAllDay(localIso)) {
+    const date = parseLocalIsoToDate(localIso);
+    return {
+      date,
+      type: "DATE" as const,
+    };
+  }
+
   const date = parseLocalIsoToDate(localIso);
   return {
     date,

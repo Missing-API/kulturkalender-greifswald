@@ -11,6 +11,7 @@ import { buildIcsDescription, buildIcsHtmlDescription } from "./build-ics-descri
 function makeEvent(overrides: Partial<NormalizedEvent> = {}): NormalizedEvent {
   return {
     id: "test-1",
+    seriesId: null,
     summary: "Test",
     description: "Hello world",
     start: "2026-05-01T10:00:00",
@@ -70,18 +71,19 @@ describe("buildIcsDescription", () => {
 });
 
 describe("buildIcsHtmlDescription", () => {
-  it("wraps description in p tag when no HTML", () => {
+  it("wraps description in div with inner p tag when no HTML", () => {
     const result = buildIcsHtmlDescription(makeEvent());
-    expect(result).toContain('<p class="p-description">Hello world</p>');
+    expect(result).toContain('<div class="p-description"><p>Hello world</p></div>');
   });
 
-  it("preserves existing HTML in description", () => {
+  it("preserves existing HTML in description within div", () => {
     const result = buildIcsHtmlDescription(
       makeEvent({ description: "<p>Already HTML</p>" }),
     );
     expect(result).toContain("<p>Already HTML</p>");
-    // Should not double-wrap
-    expect(result).not.toContain('<p class="p-description"><p>');
+    // Should use div wrapper, not p
+    expect(result).toContain('<div class="p-description">');
+    expect(result).not.toContain('<p class="p-description">');
   });
 
   it("includes img tag when image present", () => {

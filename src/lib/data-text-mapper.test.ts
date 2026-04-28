@@ -41,9 +41,9 @@ describe("dataToHtml", () => {
     expect(result).not.toContain('<p class="p-description">');
   });
 
-  it("wraps plain text description in p tag", () => {
+  it("wraps plain text description in div with inner p tag", () => {
     const result = dataToHtml({ description: "Plain text" });
-    expect(result).toContain('<p class="p-description">Plain text</p>');
+    expect(result).toContain('<div class="p-description"><p>Plain text</p></div>');
   });
 
   it("includes document as attachment link", () => {
@@ -70,7 +70,7 @@ describe("dataToHtml", () => {
 
   it("handles empty description", () => {
     const result = dataToHtml({ description: "" });
-    expect(result).toContain('<p class="p-description"></p>');
+    expect(result).toContain('<div class="p-description"><p></p></div>');
   });
 
   it("handles scopes in taxonomy section", () => {
@@ -89,5 +89,42 @@ describe("dataToHtml", () => {
     });
     expect(result).toContain('<span class="p-category">#Musik</span>');
     expect(result).toContain('<span class="p-scope">@Region</span>');
+  });
+
+  it("wraps output in full HTML document envelope", () => {
+    const result = dataToHtml({ description: "Event" });
+    expect(result).toMatch(/^<!DOCTYPE html><html><body>/);
+    expect(result).toMatch(/<\/body><\/html>$/);
+  });
+
+  it("uses div container for description instead of p", () => {
+    const result = dataToHtml({ description: "Event" });
+    expect(result).toContain('<div class="p-description">');
+    expect(result).toContain("</div>");
+    // Should not use <p> as the outer wrapper
+    expect(result).not.toMatch(/<p class="p-description">[^<]*<\/p>/);
+  });
+
+  it("splits double newlines into separate p elements", () => {
+    const result = dataToHtml({
+      description: "First paragraph.\n\nSecond paragraph.",
+    });
+    expect(result).toContain("<p>First paragraph.</p>");
+    expect(result).toContain("<p>Second paragraph.</p>");
+  });
+
+  it("converts single newlines to br elements within paragraphs", () => {
+    const result = dataToHtml({
+      description: "Line one.\nLine two.",
+    });
+    expect(result).toContain("Line one.<br>Line two.");
+  });
+
+  it("handles mixed single and double newlines", () => {
+    const result = dataToHtml({
+      description: "Para 1 line 1.\nPara 1 line 2.\n\nPara 2.",
+    });
+    expect(result).toContain("<p>Para 1 line 1.<br>Para 1 line 2.</p>");
+    expect(result).toContain("<p>Para 2.</p>");
   });
 });

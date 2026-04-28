@@ -8,7 +8,7 @@ import {
 import type { NormalizedEvent } from "@/types/normalized-event.schema";
 
 import { buildIcsDescription, buildIcsHtmlDescription } from "./build-ics-description";
-import { mapStatus, toIcsDateObject } from "./helpers/ics-date";
+import { isAllDay, mapStatus, toIcsDateObject, toIcsAllDayEnd } from "./helpers/ics-date";
 
 type AltDescNonStandard = { altDesc: string };
 
@@ -23,7 +23,7 @@ const EUROPE_BERLIN_TIMEZONE: IcsTimezone<AltDescNonStandard> = {
       name: "CEST",
       recurrenceRule: {
         frequency: "YEARLY",
-        byMonth: [3],
+        byMonth: [2],
         byDay: [{ day: "SU", occurrence: -1 }],
       },
     },
@@ -35,7 +35,7 @@ const EUROPE_BERLIN_TIMEZONE: IcsTimezone<AltDescNonStandard> = {
       name: "CET",
       recurrenceRule: {
         frequency: "YEARLY",
-        byMonth: [10],
+        byMonth: [9],
         byDay: [{ day: "SU", occurrence: -1 }],
       },
     },
@@ -56,7 +56,9 @@ export function eventsToIcs(events: NormalizedEvent[]): string {
     description: buildIcsDescription(event),
     start: toIcsDateObject(event.start),
     stamp: { date: now },
-    duration: { hours: 2 },
+    ...(isAllDay(event.start)
+      ? { end: toIcsAllDayEnd(event.start) }
+      : { duration: { hours: 2 } }),
     location: event.location || undefined,
     url: event.link,
     status: mapStatus(event.status),
@@ -96,6 +98,25 @@ export function eventsToIcs(events: NormalizedEvent[]): string {
     "METHOD:PUBLISH\r\n",
     "METHOD:PUBLISH\r\nX-WR-TIMEZONE:Europe/Berlin\r\nX-PUBLISHED-TTL:PT1H\r\n",
   );
+
+  // Quote ORGANIZER CN values that contain RFC 5545 special characters
+  ics = ics.replaceAll(
+    /ORGANIZER;CN=([^":][^:]*?)(:\s*MAILTO:)/g,
+    (_match, cn: string, mailto: string) =>
+      /[,;]/.test(cn)
+        ? `ORGANIZER;CN="${cn}"${mailto}`
+        : `ORGANIZER;CN=${cn}${mailto}`,
+  );
+
+  // Inject RELATED-TO for series events (RFC 5545 §3.8.4.5)
+  for (const event of events) {
+    if (event.seriesId) {
+      ics = ics.replace(
+        `UID:${event.id}\r\n`,
+        `UID:${event.id}\r\nRELATED-TO:${event.seriesId}\r\n`,
+      );
+    }
+  }
 
   return ics;
 }

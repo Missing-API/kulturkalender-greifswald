@@ -103,6 +103,7 @@ async function getVenueIndex(): Promise<
 
   const response = await fetch(config.venuesBaseUrl, {
     signal: AbortSignal.timeout(5000),
+    headers: { "Accept-Language": "de" },
   });
 
   if (!response.ok) {

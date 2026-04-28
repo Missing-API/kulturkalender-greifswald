@@ -7,6 +7,7 @@ import { z } from "zod";
 export const EventDtoSchema = z
   .object({
     id: z.string().describe("Event identifier"),
+    seriesId: z.string().nullable().describe("Series identifier for recurring events or null"),
     summary: z.string().describe("Event title"),
     description: z.string().describe("Event description"),
     start: z.string().describe("Start datetime ISO 8601"),

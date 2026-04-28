@@ -37,6 +37,7 @@ async function main(): Promise<void> {
 
   const response = await fetch(VENUES_BASE_URL, {
     signal: AbortSignal.timeout(TIMEOUT_MS),
+    headers: { "Accept-Language": "de" },
   });
   if (!response.ok) {
     log.error(`HTTP ${response.status} for ${VENUES_BASE_URL}`);
@@ -75,6 +76,7 @@ async function main(): Promise<void> {
       batch.map(async (entry) => {
         const res = await fetch(entry.url, {
           signal: AbortSignal.timeout(TIMEOUT_MS),
+          headers: { "Accept-Language": "de" },
         });
         if (!res.ok) {
           log.error(`HTTP ${res.status} for ${entry.url}`);

@@ -15,6 +15,7 @@ export async function fetchVenueDetail(
       signal: AbortSignal.timeout(
         Math.min(config.requestTimeoutMs, 5000)
       ),
+      headers: { "Accept-Language": "de" },
     });
 
     if (!response.ok) {

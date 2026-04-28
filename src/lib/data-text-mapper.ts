@@ -47,9 +47,17 @@ export function dataToText(data: TextWithData): string {
 }
 
 export function dataToHtml(data: TextWithData): string {
-  let descriptionLine = cleanSpaces(data.description);
-  if (!containsHtml(descriptionLine)) {
-    descriptionLine = `<p class="p-description">${descriptionLine}</p>`;
+  let descriptionBlock: string;
+  const cleaned = cleanSpaces(data.description);
+  if (containsHtml(cleaned)) {
+    descriptionBlock = `<div class="p-description">${cleaned}</div>`;
+  } else {
+    const paragraphs = cleaned
+      .split("\n\n")
+      .map((p) => p.replaceAll("\n", "<br>"))
+      .map((p) => `<p>${p}</p>`)
+      .join("");
+    descriptionBlock = `<div class="p-description">${paragraphs}</div>`;
   }
   const imageLine = data.image
     ? `<img class="u-photo" src="${data.image}" />`
@@ -74,7 +82,8 @@ export function dataToHtml(data: TextWithData): string {
         [tags, scopes].filter((item) => item !== null).join(" ") +
         "</p>"
       : null;
-  return [descriptionLine, imageLine, documentLine, urlLine, tagScopeLine]
+  const body = [descriptionBlock, imageLine, documentLine, urlLine, tagScopeLine]
     .filter((line) => line !== null)
-    .join("\n");
+    .join("");
+  return `<!DOCTYPE html><html><body>${body}</body></html>`;
 }

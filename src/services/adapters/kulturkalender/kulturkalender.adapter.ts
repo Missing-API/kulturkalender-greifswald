@@ -79,7 +79,7 @@ async function fetchWithRetry(
     try {
       const response = await fetch(url, {
         signal: AbortSignal.timeout(options.timeoutMs),
-        headers: { Accept: "application/json" },
+        headers: { Accept: "application/json", "Accept-Language": "de" },
       });
 
       if (response.ok) {

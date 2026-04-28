@@ -19,6 +19,7 @@ export async function mapSourceToNormalized(
 
   return {
     id: `kulturkalender-${source.kumo_id}-${source.date}`,
+    seriesId: `kulturkalender-${source.kumo_id}`,
     summary: source.title,
     description: buildDescription(source),
     start: startDateTime,
@@ -41,7 +42,7 @@ function buildStartDateTime(date: string, time: string): string {
   if (/^\d{2}:\d{2}$/.test(time)) {
     return `${date}T${time}:00`;
   }
-  return `${date}T00:00:00`;
+  return date;
 }
 
 function buildDescription(source: KulturkalenderSourceEvent): string {

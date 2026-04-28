@@ -40,6 +40,7 @@ function makeSourceEvent(overrides: Record<string, unknown> = {}) {
 function makeNormalizedEvent(overrides: Partial<NormalizedEvent> = {}): NormalizedEvent {
   return {
     id: "kulturkalender-1-2026-06-01",
+    seriesId: "kulturkalender-1",
     summary: "Test Event",
     description: "Description",
     start: "2026-06-01T20:00:00+02:00",

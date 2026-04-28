@@ -7,6 +7,7 @@ import { z } from "zod";
 export const NormalizedEventSchema = z
   .object({
     id: z.string().min(1).describe("Stable event identity derived from source"),
+    seriesId: z.string().nullable().default(null).describe("Shared identifier for recurring event series (null if one-off)"),
     summary: z.string().min(1).describe("Normalized event title"),
     description: z.string().default("").describe("Full event description text"),
     start: z.string().describe("Event start as ISO 8601 datetime string"),
