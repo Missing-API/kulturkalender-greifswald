@@ -115,6 +115,7 @@ describe("ICS Formatter", () => {
       image: "https://example.com/photo.jpg",
       status: "confirmed" as const,
       source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
       tags: [],
       updated: "2026-01-01T00:00:00Z",
     };
@@ -218,6 +219,7 @@ describe("ICS Formatter", () => {
       image: null,
       status: "confirmed" as const,
       source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
       tags: [],
       updated: "2026-01-01T00:00:00Z",
     };
@@ -238,6 +240,7 @@ describe("ICS Formatter", () => {
       image: null,
       status: "confirmed" as const,
       source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
       tags: [],
       updated: "2026-01-01T00:00:00Z",
     };
@@ -303,6 +306,7 @@ describe("ICS Formatter", () => {
       image: null,
       status: "confirmed" as const,
       source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
       tags: [],
       updated: "2026-01-01T00:00:00Z",
     };
@@ -323,6 +327,7 @@ describe("ICS Formatter", () => {
       image: null,
       status: "confirmed" as const,
       source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
       tags: [],
       updated: "2026-01-01T00:00:00Z",
     };
@@ -417,6 +422,7 @@ describe("ICS Formatter", () => {
         image: null,
         status: "confirmed" as const,
         source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
         tags: [],
         updated: "2026-01-01T00:00:00Z",
       };
@@ -441,6 +447,7 @@ describe("ICS Formatter", () => {
         image: null,
         status: "confirmed" as const,
         source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
         tags: [],
         updated: "2026-01-01T00:00:00Z",
       };
@@ -465,6 +472,7 @@ describe("ICS Formatter", () => {
         image: null,
         status: "confirmed" as const,
         source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
         tags: [],
         updated: "2026-01-01T00:00:00Z",
       };
@@ -489,6 +497,7 @@ describe("ICS Formatter", () => {
         image: null,
         status: "confirmed" as const,
         source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
         tags: [],
         updated: "2026-01-01T00:00:00Z",
       };
@@ -513,6 +522,7 @@ describe("ICS Formatter", () => {
         image: null,
         status: "confirmed" as const,
         source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
         tags: [],
         updated: "2026-01-01T00:00:00Z",
       };
@@ -537,6 +547,7 @@ describe("ICS Formatter", () => {
         image: null,
         status: "tentative" as const,
         source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
         tags: [],
         updated: "2026-01-01T00:00:00Z",
       };
@@ -561,6 +572,7 @@ describe("ICS Formatter", () => {
         image: null,
         status: "cancelled" as const,
         source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
         tags: [],
         updated: "2026-01-01T00:00:00Z",
       };
@@ -635,6 +647,7 @@ describe("ICS Formatter", () => {
         image: null,
         status: "confirmed" as const,
         source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
         tags: [],
         updated: "2026-01-01T00:00:00Z",
       };
@@ -663,6 +676,7 @@ describe("ICS Formatter", () => {
         image: null,
         status: "confirmed" as const,
         source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
         tags: [],
         updated: "2026-01-01T00:00:00Z",
       };
@@ -692,6 +706,7 @@ describe("ICS Formatter", () => {
         image: null,
         status: "confirmed" as const,
         source: "kulturkalender-greifswald",
+      sourceName: "Kulturkalender Greifswald",
         tags: [],
         updated: "2026-01-01T00:00:00Z",
       };

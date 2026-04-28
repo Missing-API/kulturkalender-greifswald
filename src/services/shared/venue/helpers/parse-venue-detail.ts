@@ -24,8 +24,15 @@ export function parseVenueDetail(html: string): VenueDetail | null {
     return null;
   }
 
+  /* Scope address extraction to the container that holds the venue name.
+     The live pages include search-bar labels (e.g. "Date", "Venue") that
+     also match span.d-block — looking only inside the name's parent div
+     avoids picking those up. */
+  const container = nameEl.closest("span.d-block.fw-500").parent();
+
   const addressLines: string[] = [];
-  $("span.d-block")
+  container
+    .children("span.d-block")
     .not(".fw-500")
     .each((_, el) => {
       const text = $(el).text().trim();

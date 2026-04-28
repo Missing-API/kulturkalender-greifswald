@@ -58,11 +58,12 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe("fetchFeed", () => {
+describe("fetchFeed adapter", () => {
   describe("Happy Path", () => {
     it("fetches feed from URL and caches result", async () => {
       vi.stubGlobal(
         "fetch",
+        // source: simulated successful HTTP response with valid feed payload
         vi.fn().mockResolvedValue({
           ok: true,
           json: async () => VALID_FEED,
@@ -143,9 +144,11 @@ describe("fetchFeed", () => {
 
   describe("Retry logic", () => {
     it("retries on 500 response and succeeds", async () => {
+      // source: simulated 500 then success from upstream kulturkalender feed
       const fetchMock = vi
         .fn()
         .mockResolvedValueOnce({ ok: false, status: 500, statusText: "Internal Server Error" })
+        // source: simulated successful retry response from upstream
         .mockResolvedValueOnce({ ok: true, json: async () => VALID_FEED });
 
       vi.stubGlobal("fetch", fetchMock);
@@ -160,6 +163,7 @@ describe("fetchFeed", () => {
     it("throws on non-retryable HTTP error (4xx)", async () => {
       vi.stubGlobal(
         "fetch",
+        // source: simulated HTTP 404 response from upstream
         vi.fn().mockResolvedValue({
           ok: false,
           status: 404,
@@ -174,6 +178,8 @@ describe("fetchFeed", () => {
     it("throws after exhausting retries on persistent 500", async () => {
       vi.stubGlobal(
         "fetch",
+        // source: simulated persistent HTTP 500 from upstream
+        // source: simulated HTTP 500 response from upstream
         vi.fn().mockResolvedValue({
           ok: false,
           status: 500,
@@ -186,9 +192,11 @@ describe("fetchFeed", () => {
     });
 
     it("retries on network error and succeeds on second attempt", async () => {
+      // source: simulated ECONNRESET then success from upstream
       const fetchMock = vi
         .fn()
         .mockRejectedValueOnce(new Error("ECONNRESET"))
+        // source: simulated successful retry response from upstream
         .mockResolvedValueOnce({ ok: true, json: async () => VALID_FEED });
 
       vi.stubGlobal("fetch", fetchMock);
@@ -203,6 +211,7 @@ describe("fetchFeed", () => {
     it("wraps non-Error throws in Error", async () => {
       vi.stubGlobal(
         "fetch",
+        // source: simulated non-Error rejection from fetch
         vi.fn().mockRejectedValue("string-error"),
       );
 
@@ -218,6 +227,7 @@ describe("fetchFeed", () => {
 
       vi.stubGlobal(
         "fetch",
+        // source: simulated successful re-fetch after stale cache hit
         vi.fn().mockResolvedValue({
           ok: true,
           json: async () => VALID_FEED,

@@ -15,6 +15,7 @@ const adapterModule = await import("@/services/adapters/kulturkalender/kulturkal
 const mockFetchFeed = vi.mocked(adapterModule.fetchFeed);
 const mapperModule = await import("@/services/adapters/kulturkalender/kulturkalender.mapper");
 const mockMapSourceToNormalized = vi.mocked(mapperModule.mapSourceToNormalized);
+const mockIsVhsEvent = vi.mocked(mapperModule.isVhsEvent);
 
 function makeSourceEvent(overrides: Record<string, unknown> = {}) {
   return {
@@ -54,6 +55,7 @@ function makeNormalizedEvent(overrides: Partial<NormalizedEvent> = {}): Normaliz
     image: null,
     status: "confirmed",
     source: "kulturkalender-greifswald",
+    sourceName: "Kulturkalender Greifswald",
     tags: [],
     updated: "2026-01-15T10:00:00.000+01:00",
     ...overrides,
@@ -167,6 +169,29 @@ describe("getEvents – normalized event cache", () => {
     );
   });
 
+  it("filters out VHS events to avoid duplication with direct VHS import", async () => {
+    const regularSource = makeSourceEvent();
+    const vhsSource = makeSourceEvent({
+      kumo_id: 99,
+      organiser: "Volkshochschule Vorpommern-Greifswald",
+    });
+    const normalized = makeNormalizedEvent();
+
+    // source: simulated empty cache + feed with regular and VHS events
+    vi.mocked(cacheModule.cacheGet).mockReturnValue(null);
+    mockFetchFeed.mockResolvedValue([regularSource, vhsSource]);
+    mockIsVhsEvent
+      // source: regular event passes VHS check, VHS event is filtered
+      .mockReturnValueOnce(false)  // regular event passes
+      .mockReturnValueOnce(true);  // VHS event filtered out
+    mockMapSourceToNormalized.mockResolvedValue(normalized);
+
+    const events = await getEvents();
+
+    expect(events).toHaveLength(1);
+    expect(mockMapSourceToNormalized).toHaveBeenCalledTimes(1);
+  });
+
   it("picks the latest kumo_updated_at across multiple feed items", async () => {
     const source1 = makeSourceEvent({ kumo_updated_at: "2026-01-01T00:00:00.000+01:00" });
     const source2 = makeSourceEvent({
@@ -219,6 +244,7 @@ describe("getEvents – normalized event cache", () => {
   });
 
   it("handles non-Error throw from upstream", async () => {
+    // source: simulated empty cache + non-Error rejection
     vi.mocked(cacheModule.cacheGet).mockReturnValue(null);
     mockFetchFeed.mockRejectedValue("string-error");
 
@@ -228,6 +254,7 @@ describe("getEvents – normalized event cache", () => {
   it("serves stale data on non-Error upstream failure", async () => {
     const normalized = makeNormalizedEvent();
 
+    // source: simulated stale cache + non-Error rejection
     vi.mocked(cacheModule.cacheGet).mockReturnValue({
       data: { events: [normalized], maxUpdatedAt: "2026-01-15T10:00:00.000+01:00" },
       stale: true,

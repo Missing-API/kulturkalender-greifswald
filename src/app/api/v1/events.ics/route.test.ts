@@ -20,7 +20,8 @@ const DUMMY_EVENTS: NormalizedEvent[] = [
     image: "https://example.com/photo.jpg",
     status: "confirmed",
     source: "kulturkalender-greifswald",
-    tags: [],
+    sourceName: "Kulturkalender Greifswald",
+    tags: ["Kultur", "Konzert"],
     updated: "2026-04-27T00:00:00Z",
   },
   {
@@ -39,6 +40,7 @@ const DUMMY_EVENTS: NormalizedEvent[] = [
     image: null,
     status: "cancelled",
     source: "kulturkalender-greifswald",
+    sourceName: "Kulturkalender Greifswald",
     tags: [],
     updated: "2026-04-27T00:00:00Z",
   },
@@ -58,7 +60,8 @@ const DUMMY_EVENTS: NormalizedEvent[] = [
     image: null,
     status: "confirmed",
     source: "kulturkalender-greifswald",
-    tags: [],
+    sourceName: "Kulturkalender Greifswald",
+    tags: ["Kultur", "Ausstellung"],
     updated: "2026-04-27T00:00:00Z",
   },
 ];
@@ -180,11 +183,11 @@ describe("GET /api/v1/events.ics (route handler)", () => {
       expect(organizerCount).toBe(2);
     });
 
-    it("includes CATEGORIES when category is set", () => {
-      expect(body).toContain("CATEGORIES:Konzert");
+    it("includes CATEGORIES from event tags", () => {
+      expect(body).toContain("CATEGORIES:Kultur,Konzert");
     });
 
-    it("omits CATEGORIES when category is empty", () => {
+    it("omits CATEGORIES when tags are empty", () => {
       const categoriesCount = (body.match(/^CATEGORIES:/gm) ?? []).length;
       expect(categoriesCount).toBe(2);
     });
@@ -227,7 +230,8 @@ describe("GET /api/v1/events.ics (route handler)", () => {
       expect(unfolded).toContain("https://example.com/event/1");
     });
 
-    it("includes category tag in description", () => {
+    it("includes category-derived hashtag tags in description", () => {
+      expect(body).toContain("#Kultur");
       expect(body).toContain("#Konzert");
     });
 

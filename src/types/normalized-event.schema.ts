@@ -30,6 +30,10 @@ export const NormalizedEventSchema = z
       .string()
       .default("kulturkalender-greifswald")
       .describe("Source adapter identifier"),
+    sourceName: z
+      .string()
+      .default("Kulturkalender Greifswald")
+      .describe("Human-readable source name for display"),
     tags: z
       .array(z.string())
       .default([])

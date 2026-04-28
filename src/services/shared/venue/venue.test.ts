@@ -138,5 +138,44 @@ describe("parseVenueDetail", () => {
     expect(result?.street).toBeUndefined();
     expect(result?.email).toBeNull();
   });
+
+  it("ignores search bar labels in full page HTML", () => {
+    const html = `<html><body>
+      <div class="searchBarItem">
+        <span class="d-block fs-smaller searchBarItem-label">Date</span>
+        <span class="d-block fs-larger searchBarItem-value text-truncate"></span>
+      </div>
+      <div class="searchBarItem">
+        <span class="d-block fs-smaller searchBarItem-label">Venue</span>
+        <span class="d-block searchBarItem-value text-truncate">All</span>
+      </div>
+      <div class="col-12 offset-0 col-md-5 offset-md-1">
+        <div>
+          <div>
+            <span class="d-block fw-500">
+              <a href="/venues/77">Alfried Krupp Wissenschaftskolleg</a>
+            </span>
+            <span class="d-block">Martin-Luther-Straße 14</span>
+            <span class="d-block">17489 Greifswald</span>
+            <span class="d-block">03834 420-5001</span>
+          </div>
+          <div class="mt-1">
+            <span class="d-block"><a href="mailto:info@wiko-greifswald.de">E-Mail</a></span>
+          </div>
+        </div>
+      </div>
+    </body></html>`;
+    const result = parseVenueDetail(html);
+
+    expect(result).not.toBeNull();
+    expect(result?.name).toBe("Alfried Krupp Wissenschaftskolleg");
+    expect(result?.street).toBe("Martin-Luther-Straße 14");
+    expect(result?.city).toBe("17489 Greifswald");
+    expect(result?.location).toBe(
+      "Alfried Krupp Wissenschaftskolleg, Martin-Luther-Straße 14, 17489 Greifswald"
+    );
+    expect(result?.location).not.toContain("Date");
+    expect(result?.location).not.toContain("Venue");
+  });
 });
 });

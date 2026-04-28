@@ -1,3 +1,4 @@
+/* eslint-disable @schafevormfenster/one-function-per-file -- isAllDay and toIcsAllDayEnd are cohesive helpers */
 import { parseLocalIsoToDate } from "./ics-date";
 
 /**

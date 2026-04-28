@@ -8,7 +8,7 @@ vi.mock("@/lib/logger", () => ({
 // Import after mock so logger is available
 const { cacheGet, cacheSet, cacheDelete } = await import("@/lib/cache");
 
-describe("cache", () => {
+describe("cache module", () => {
   beforeEach(() => {
     // Clear the internal cache by deleting known keys
     cacheDelete("test-key");
@@ -19,7 +19,8 @@ describe("cache", () => {
     vi.restoreAllMocks();
   });
 
-  describe("cacheGet", () => {
+  describe("Happy Path", () => {
+  describe("cacheGet lookups", () => {
     it("returns null for unknown key", () => {
       expect(cacheGet("nonexistent")).toBeNull();
     });
@@ -48,8 +49,8 @@ describe("cache", () => {
     });
   });
 
-  describe("cacheSet", () => {
-    it("stores and retrieves data", () => {
+  describe("cacheSet storage", () => {
+    it("stores and retrieves data correctly", () => {
       cacheSet("test-key", [1, 2, 3], 5000);
       const result = cacheGet<number[]>("test-key");
 
@@ -67,7 +68,7 @@ describe("cache", () => {
   });
 
   describe("cacheDelete", () => {
-    it("removes an existing entry", () => {
+    it("removes an existing cache entry", () => {
       cacheSet("test-key", "data", 5000);
       const deleted = cacheDelete("test-key");
 
@@ -75,9 +76,10 @@ describe("cache", () => {
       expect(cacheGet("test-key")).toBeNull();
     });
 
-    it("returns false for non-existent key", () => {
+    it("returns false for non-existent cache key", () => {
       const deleted = cacheDelete("nonexistent");
       expect(deleted).toBe(false);
     });
+  });
   });
 });

@@ -5,7 +5,7 @@ import { describe, it, expect, vi } from "vitest";
 
 import { NormalizedEventSchema } from "@/types/normalized-event.schema";
 
-import { mapSourceToNormalized } from "./kulturkalender.mapper";
+import { isVhsEvent, mapSourceToNormalized } from "./kulturkalender.mapper";
 import {
   KulturkalenderSourceEventSchema,
   KulturkalenderSourceFeedSchema,
@@ -19,7 +19,7 @@ const validSourceEvent = {
   kumo_link: "https://www.kulturkalender.greifswald.de/events/12345?start_on=2026-05-01",
   kumo_id: 12_345,
   kumo_updated_at: "2026-01-15T10:00:00.000+01:00",
-  category: "Konzert",
+  category: "Musik",
   venue: "Stadthalle",
   title: "Test Event",
   subtitle: "A test subtitle",
@@ -117,10 +117,11 @@ describe("Derived fixture: valid-minimal", () => {
     const mapped = await mapSourceToNormalized(source);
     const normalized = NormalizedEventSchema.parse(mapped);
 
-    expect(normalized.organizer).toBe("Kulturkalender Greifswald");
+    expect(normalized.organizer).toBe("");
     expect(normalized.location).toBe("");
     expect(normalized.start).toBe("2026-01-01");
     expect(normalized.tags).toEqual([]);
+    expect(normalized.sourceName).toBe("Kulturkalender Greifswald");
   });
 });
 
@@ -134,7 +135,7 @@ describe("Derived fixture: valid-complete", () => {
     expect(normalized.organizer).toBe("Kulturverein Greifswald e.V.");
     expect(normalized.location).toBe("Stadthalle Greifswald");
     expect(normalized.start).toBe("2026-06-15T19:30:00");
-    expect(normalized.category).toBe("Musik");
+    expect(normalized.category).toBe("Kultur & Tourismus");
     expect(normalized.description).toContain("Ein Abend voller Klassik und Jazz");
   });
 });
@@ -157,47 +158,27 @@ describe("Derived fixture: boundary-dates", () => {
   });
 });
 
-describe("Derived fixture: vhs-overlap", () => {
-  it("soft-tags VHS events by organiser", async () => {
+describe("VHS event filtering (isVhsEvent)", () => {
+  it("detects VHS events by organiser", () => {
     const data = loadFixture("fixtures/derived/vhs-overlap.json") as unknown[];
-    const events = await Promise.all(
-      data.map(async (raw) => {
-        const source = KulturkalenderSourceEventSchema.parse(raw);
-        const mapped = await mapSourceToNormalized(source);
-        return NormalizedEventSchema.parse(mapped);
-      })
-    );
-
-    expect(events).toHaveLength(2);
-    for (const event of events) {
-      expect(event.tags).toContain("vhs-overlap");
+    for (const raw of data) {
+      const source = KulturkalenderSourceEventSchema.parse(raw);
+      expect(isVhsEvent(source)).toBe(true);
     }
   });
 
-  it("soft-tags VHS events by venue", async () => {
+  it("detects VHS events by venue", () => {
     const source = KulturkalenderSourceEventSchema.parse({
       ...validSourceEvent,
       venue: "Volkshochschule Greifswald",
       organiser: "Someone Else",
     });
-    const mapped = await mapSourceToNormalized(source);
-    const normalized = NormalizedEventSchema.parse(mapped);
-
-    expect(normalized.tags).toContain("vhs-overlap");
+    expect(isVhsEvent(source)).toBe(true);
   });
 
-  it("does NOT filter VHS events — they are preserved", async () => {
-    const data = loadFixture("fixtures/derived/vhs-overlap.json") as unknown[];
-    const events = await Promise.all(
-      data.map(async (raw) => {
-        const source = KulturkalenderSourceEventSchema.parse(raw);
-        return mapSourceToNormalized(source);
-      })
-    );
-
-    expect(events).toHaveLength(2);
-    expect(events[0].summary).toBe("Englisch für Anfänger");
-    expect(events[1].summary).toBe("VHS Vortrag im Rathaus");
+  it("does not flag non-VHS events", () => {
+    const source = KulturkalenderSourceEventSchema.parse(validSourceEvent);
+    expect(isVhsEvent(source)).toBe(false);
   });
 });
 
@@ -212,6 +193,21 @@ describe("mapSourceToNormalized", () => {
     expect(mapped.start).toBe("2026-05-01T19:30:00");
     expect(mapped.location).toBe("Stadthalle");
     expect(mapped.organizer).toBe("Test Organiser");
+  });
+
+  it("maps source category to rural category", async () => {
+    const source = KulturkalenderSourceEventSchema.parse(validSourceEvent);
+    const mapped = await mapSourceToNormalized(source);
+    expect(mapped.category).toBe("Kultur & Tourismus");
+  });
+
+  it("maps 'Extra' category to empty string", async () => {
+    const source = KulturkalenderSourceEventSchema.parse({
+      ...validSourceEvent,
+      category: "Extra",
+    });
+    const mapped = await mapSourceToNormalized(source);
+    expect(mapped.category).toBe("");
   });
 
   it("returns date-only string when time is empty (all-day event)", async () => {
@@ -230,19 +226,35 @@ describe("mapSourceToNormalized", () => {
     expect(mapped.description).toContain("Event description content.");
   });
 
-  it("uses default organizer when organiser is null", async () => {
+  it("falls back to venue when organiser is null", async () => {
     const source = KulturkalenderSourceEventSchema.parse({
       ...validSourceEvent,
       organiser: null,
     });
     const mapped = await mapSourceToNormalized(source);
-    expect(mapped.organizer).toBe("Kulturkalender Greifswald");
+    expect(mapped.organizer).toBe("Stadthalle");
   });
 
-  it("does not tag non-VHS events", async () => {
+  it("falls back to empty string when both organiser and venue are null", async () => {
+    const source = KulturkalenderSourceEventSchema.parse({
+      ...validSourceEvent,
+      organiser: null,
+      venue: null,
+    });
+    const mapped = await mapSourceToNormalized(source);
+    expect(mapped.organizer).toBe("");
+  });
+
+  it("always sets sourceName to Kulturkalender Greifswald", async () => {
     const source = KulturkalenderSourceEventSchema.parse(validSourceEvent);
     const mapped = await mapSourceToNormalized(source);
-    expect(mapped.tags).toEqual([]);
+    expect(mapped.sourceName).toBe("Kulturkalender Greifswald");
+  });
+
+  it("includes category-derived display tags", async () => {
+    const source = KulturkalenderSourceEventSchema.parse(validSourceEvent);
+    const mapped = await mapSourceToNormalized(source);
+    expect(mapped.tags).toEqual(["Kultur", "Musik"]);
   });
 });
 });

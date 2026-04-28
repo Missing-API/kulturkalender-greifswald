@@ -2,10 +2,23 @@
 import { resolveVenueLocation } from "@/services/shared/venue/lookup";
 import type { NormalizedEventInput } from "@/types/normalized-event.schema";
 
+import { mapCategory, mapCategoryToTags } from "./kulturkalender.categories";
 import type { KulturkalenderSourceEvent } from "./kulturkalender.source.schema";
 
-const DEFAULT_ORGANIZER = "Kulturkalender Greifswald";
+const SOURCE_NAME = "Kulturkalender Greifswald";
 const VHS_PATTERN = /volkshochschule/i;
+
+/**
+ * VHS courses are already imported directly from VHS and must not be
+ * duplicated through the Kulturkalender feed. Use this guard before
+ * mapping to filter them out.
+ */
+export function isVhsEvent(source: KulturkalenderSourceEvent): boolean {
+  return (
+    (!!source.organiser && VHS_PATTERN.test(source.organiser)) ||
+    (!!source.venue && VHS_PATTERN.test(source.venue))
+  );
+}
 
 /**
  * Maps a source feed event to the normalized event input shape.
@@ -14,7 +27,7 @@ export async function mapSourceToNormalized(
   source: KulturkalenderSourceEvent
 ): Promise<NormalizedEventInput> {
   const startDateTime = buildStartDateTime(source.date, source.time);
-  const tags = detectTags(source);
+  const tags = mapCategoryToTags(source.category);
   const venue = await resolveVenueLocation(source.venue);
 
   return {
@@ -26,13 +39,14 @@ export async function mapSourceToNormalized(
     end: null,
     timeZone: "Europe/Berlin",
     location: venue.location,
-    category: source.category,
-    organizer: source.organiser ?? DEFAULT_ORGANIZER,
+    category: mapCategory(source.category),
+    organizer: source.organiser ?? source.venue ?? "",
     organizerEmail: venue.email,
     link: source.kumo_link,
     image: source.image ?? null,
     status: "confirmed",
     source: "kulturkalender-greifswald",
+    sourceName: SOURCE_NAME,
     tags,
     updated: source.kumo_updated_at,
   };
@@ -54,19 +68,4 @@ function buildDescription(source: KulturkalenderSourceEvent): string {
     parts.push(source.content);
   }
   return parts.join("\n\n");
-}
-
-/**
- * Detect metadata tags for downstream processing.
- * VHS events are soft-tagged, not filtered.
- */
-function detectTags(source: KulturkalenderSourceEvent): string[] {
-  const tags: string[] = [];
-  if (
-    (source.organiser && VHS_PATTERN.test(source.organiser)) ||
-    (source.venue && VHS_PATTERN.test(source.venue))
-  ) {
-    tags.push("vhs-overlap");
-  }
-  return tags;
 }

@@ -62,7 +62,7 @@ export function eventsToIcs(events: NormalizedEvent[]): string {
     location: event.location || undefined,
     url: event.link,
     status: mapStatus(event.status),
-    categories: event.category ? [event.category] : undefined,
+    categories: event.tags.length > 0 ? event.tags : undefined,
     organizer: event.organizer
       ? { name: event.organizer, email: event.organizerEmail || DEFAULT_ORGANIZER_EMAIL }
       : undefined,

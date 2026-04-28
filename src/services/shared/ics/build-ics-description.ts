@@ -15,12 +15,16 @@ function deriveScopes(event: NormalizedEvent): string[] | undefined {
 
 /**
  * Build the TextWithData shape for @schafevormfenster/data-text-mapper.
+ * Appends an organizer line to the description when available.
  */
 function buildTextWithData(event: NormalizedEvent): TextWithData {
+  const description = event.organizer
+    ? `${event.description}\n\nVeranstalter: ${event.organizer}`
+    : event.description;
   return {
-    description: event.description,
+    description,
     url: event.link,
-    tags: event.category ? [event.category] : undefined,
+    tags: event.tags.length > 0 ? event.tags : undefined,
     scopes: deriveScopes(event),
     image: event.image ?? undefined,
   };

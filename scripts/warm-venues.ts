@@ -94,8 +94,11 @@ async function main(): Promise<void> {
         const nameEl = $d("span.d-block.fw-500 a").first();
         const detailName = nameEl.text().trim() || entry.name;
 
+        const container = nameEl.closest("span.d-block.fw-500").parent();
+
         const addressLines: string[] = [];
-        $d("span.d-block")
+        container
+          .children("span.d-block")
           .not(".fw-500")
           .each((_, el) => {
             const text = $d(el).text().trim();

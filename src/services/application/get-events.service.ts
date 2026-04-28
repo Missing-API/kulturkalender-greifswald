@@ -2,8 +2,7 @@
 import { cacheGet, cacheSet, cacheDelete } from "@/lib/cache";
 import { log, logger } from "@/lib/logger";
 import { fetchFeed } from "@/services/adapters/kulturkalender/kulturkalender.adapter";
-import { mapSourceToNormalized } from "@/services/adapters/kulturkalender/kulturkalender.mapper";
-import { KulturkalenderSourceEventSchema } from "@/services/adapters/kulturkalender/kulturkalender.source.schema";
+import { isVhsEvent, mapSourceToNormalized } from "@/services/adapters/kulturkalender/kulturkalender.mapper";
 import { NormalizedEventSchema, type NormalizedEvent } from "@/types/normalized-event.schema";
 
 const EVENTS_CACHE_KEY = "events:normalized:global";
@@ -67,9 +66,11 @@ export async function getEvents(): Promise<NormalizedEvent[]> {
       cacheDelete(EVENTS_CACHE_KEY);
     }
 
+    // VHS courses are imported directly from VHS — filter them out to avoid duplicates.
+    const nonVhsFeed = feed.filter((sourceEvent) => !isVhsEvent(sourceEvent));
+
     const results = await Promise.all(
-      feed.map(async (raw) => {
-        const sourceEvent = KulturkalenderSourceEventSchema.parse(raw);
+      nonVhsFeed.map(async (sourceEvent) => {
         const mapped = await mapSourceToNormalized(sourceEvent);
         return NormalizedEventSchema.parse(mapped);
       }),
