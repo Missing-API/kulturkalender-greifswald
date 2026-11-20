@@ -2,7 +2,7 @@
 
 ## Runtime and Package Management
 
-- Node.js: 24 LTS
+- Node.js: 26 (Active LTS)
 - Package manager: pnpm
 - Framework: Next.js (latest stable)
 - Language: TypeScript (strict mode)
