@@ -1,4 +1,4 @@
-import ical from "node-ical";
+import ical, { type DateWithTimeZone, type VEvent } from "node-ical";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import type { NormalizedEvent } from "@/types/normalized-event.schema";
@@ -284,9 +284,9 @@ describe("GET /api/v1/events.ics (route handler)", () => {
     });
 
     it("round-trips all-day event as date-only start", () => {
-      const ev = parsed["kulturkalender-3"] as ical.VEvent;
+      const ev = parsed["kulturkalender-3"] as VEvent;
       // node-ical sets dateOnly for VALUE=DATE
-      expect((ev.start as ical.DateWithTimeZone).dateOnly).toBe(true);
+      expect((ev.start as DateWithTimeZone).dateOnly).toBe(true);
     });
 
     it("round-trips UID correctly", () => {
@@ -295,36 +295,36 @@ describe("GET /api/v1/events.ics (route handler)", () => {
     });
 
     it("round-trips SUMMARY correctly", () => {
-      const ev = parsed["kulturkalender-1"] as ical.VEvent;
+      const ev = parsed["kulturkalender-1"] as VEvent;
       expect(ev.summary).toBe("Test Event");
     });
 
     it("round-trips DTSTART with correct date", () => {
-      const ev = parsed["kulturkalender-1"] as ical.VEvent;
+      const ev = parsed["kulturkalender-1"] as VEvent;
       const start = new Date(ev.start);
       // 2026-05-01T19:00 Europe/Berlin = 2026-05-01T17:00 UTC (CEST)
       expect(start.toISOString()).toBe("2026-05-01T17:00:00.000Z");
     });
 
     it("round-trips LOCATION correctly", () => {
-      const ev = parsed["kulturkalender-1"] as ical.VEvent;
+      const ev = parsed["kulturkalender-1"] as VEvent;
       expect(ev.location).toBe("Stadthalle Greifswald");
     });
 
     it("round-trips STATUS correctly", () => {
-      const ev1 = parsed["kulturkalender-1"] as ical.VEvent;
-      const ev2 = parsed["kulturkalender-2"] as ical.VEvent;
+      const ev1 = parsed["kulturkalender-1"] as VEvent;
+      const ev2 = parsed["kulturkalender-2"] as VEvent;
       expect(ev1.status).toBe("CONFIRMED");
       expect(ev2.status).toBe("CANCELLED");
     });
 
     it("round-trips URL correctly", () => {
-      const ev = parsed["kulturkalender-1"] as ical.VEvent;
+      const ev = parsed["kulturkalender-1"] as VEvent;
       expect(ev.url).toBe("https://example.com/event/1");
     });
 
     it("round-trips DESCRIPTION containing event text", () => {
-      const ev = parsed["kulturkalender-1"] as ical.VEvent;
+      const ev = parsed["kulturkalender-1"] as VEvent;
       expect(ev.description).toContain("A test event description");
     });
   });
