@@ -25,3 +25,6 @@ src/data/venues.generated.json
 # TypeScript
 *.tsbuildinfo
 .env*.local
+
+# Vitest HTML report (vitest 5)
+.vitest/

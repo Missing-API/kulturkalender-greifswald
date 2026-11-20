@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=24.0.0"
+    "node": "26.x"
   },
-  "packageManager": "pnpm@10.8.1",
+  "packageManager": "pnpm@10.34.9",
   "scripts": {
     "dev": "next dev",
     "prebuild": "tsx scripts/warm-venues.ts",
@@ -28,26 +28,43 @@
     "@ts-rest/core": "^3.52.1",
     "@ts-rest/open-api": "^3.52.1",
     "cheerio": "^1.2.0",
-    "next": "^16.2.4",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "swagger-ui-react": "^5.32.4",
-    "ts-ics": "^2.4.4",
-    "zod": "3"
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "swagger-ui-react": "^5.35.1",
+    "ts-ics": "^2.4.9",
+    "zod": "3.25.76"
   },
   "devDependencies": {
     "@schafevormfenster/eslint-config": "^0.0.24",
-    "@types/node": "^25.6.0",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@types/swagger-ui-react": "^5.18.0",
-    "@vitest/coverage-v8": "^4.1.5",
-    "@vitest/ui": "^4.1.5",
-    "eslint": "^9.39.4",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "node-ical": "^0.26.0",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.5"
+    "@vitest/coverage-v8": "^5.1.1",
+    "@vitest/ui": "^5.1.1",
+    "eslint": "^9.39.5",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "node-ical": "^0.27.6",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "@schafevormfenster/eslint-config>typescript": "6"
+      }
+    },
+    "overrides": {
+      "baseline-browser-mapping@^2": "^2.11.0",
+      "brace-expansion@^1": "^1.1.20",
+      "brace-expansion@^5": "^5.0.11",
+      "browserslist@^4": "^4.28.7",
+      "minimatch@^10": "^10.2.3",
+      "source-map-js@^1": "^1.2.2",
+      "undici@^7": "^7.30.1"
+    }
   }
 }
